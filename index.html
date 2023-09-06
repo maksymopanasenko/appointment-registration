@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <title>Cards</title>
-    <script src="js/index.js" defer></script>
+    <script src="js/index.js" type="module" defer></script>
 </head>
 <body>
+    <form autocomplete="off">
+        <h1>Sign In</h1>
 
+        <div>
+            <label for="email">Email*</label>
+            <input type="text" name="email" id="email" placeholder="Your email" required autocomplete="off">
+        </div>
+
+        <div>
+            <label for="password">Password*</label>
+            <input type="password" name="password" id="password" placeholder="Your password" required autocomplete="off">
+        </div>
+
+        <button type="submit">Sign In</button>
+    </form>
 </body>
 </html>
