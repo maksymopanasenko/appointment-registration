@@ -18,8 +18,10 @@ function logIn(form, btn) {
 
         if (token) {
             localStorage.setItem('token', token);
-            
+
             form.classList.add('d-none');
+            filter.classList.remove('d-none')
+            filter.classList.add('d-block')
             btn.innerText = 'Створити візит';
             btn.classList.add('create-btn');
         };
