@@ -1,5 +1,5 @@
 import getToken from "../api/getToken.js";
-import getCards from "../api/getCards.js";
+import initialRender from "./initialRender.js";
 
 const LOGIN_URL = "https://ajax.test-danit.com/api/v2/cards/login";
 
@@ -27,12 +27,7 @@ async function logIn(form, btn, filter) {
             btn.innerText = 'Створити візит';
             btn.classList.add('create-btn');
 
-            const cards = await getCards();
-            
-            if(cards.length !== 0) {
-                //render instances of class
-                document.getElementById('root').innerHTML = '';
-            }
+            await initialRender();
         };
 
         target.reset();

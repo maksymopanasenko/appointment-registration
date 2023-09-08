@@ -1,4 +1,5 @@
 async function getCards() {
+    console.log('fuck');
     try {
         const response = await fetch("https://ajax.test-danit.com/api/v2/cards", {
             headers: {
