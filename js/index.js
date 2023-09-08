@@ -1,8 +1,6 @@
-import logIn from "./functions/logIn.js";
+import openModal from "./functions/openModal.js";
 
-const logInForm = document.querySelector('form');
-
-const LOGIN_URL = "https://ajax.test-danit.com/api/v2/cards/login";
-
-
-logIn(LOGIN_URL, logInForm);
+const logInForm = document.querySelector('form'),
+      btnlogIn = document.querySelector('#logIn');
+      
+openModal(btnlogIn, logInForm);

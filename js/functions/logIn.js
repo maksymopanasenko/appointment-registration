@@ -1,32 +1,30 @@
 import getToken from "../api/getToken.js";
-const btnlogIn = document.querySelector('#logIn');
-const createCard = document.querySelector('#createCard');
-const logInForm = document.querySelector('form');
-btnlogIn.addEventListener('click', () =>{
-    createCard.classList.remove('d-none')
-    btnlogIn.classList.add("d-none");
-    createCard.classList.add('d-block')
-    logInForm.classList.remove('d-none');
-    logInForm.classList.add('d-block')
-})
-function logIn(url, form) {
+
+const LOGIN_URL = "https://ajax.test-danit.com/api/v2/cards/login";
+
+function logIn(form, btn) {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+        
+        const target = e.target;
         const body = {};
         
-        e.target.querySelectorAll('input').forEach(input => {
+        target.querySelectorAll('input').forEach(input => {
             body[input.name] = input.value; 
         });
         
-        try {
-            const token = await getToken(url, body);
+        const token = await getToken(LOGIN_URL, body);
 
+        if (token) {
             localStorage.setItem('token', token);
-        } catch(err) {
-            console.log(err);
-        }
+            
+            form.classList.add('d-none');
+            btn.innerText = 'Створити візит';
+            btn.classList.add('create-btn');
+        };
+
+        target.reset();
     });
 }
 
