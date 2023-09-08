@@ -25,17 +25,32 @@
 </header>
 <main>
     <div class="container">
-    <form autocomplete="off" class="center bg-light d-none" style="width: 40%;">
-        <h1>Sign In</h1>
-        <div class="mb-3">
+    <form id="formAuthorization" autocomplete="off" class="center bg-light d-none" style="width: 40%;">
+        <h1 class="px-3 py-1">Sign In</h1>
+        <div class="mb-3 px-3">
           <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required autocomplete="off" aria-describedby="emailHelp">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 px-3">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" name="password" id="password" placeholder="Your password" required autocomplete="off">
         </div>
-        <button type="submit" class="btn btn-primary">Ввійти</button>
+        <button type="submit" class="btn btn-primary d-grid mb-2 mx-auto">Ввійти</button>
+      </form>
+    </div>
+    <div class="container-fluid d-none" id="filter">
+    <form class="d-flex justify-content-center gap-3">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 25%;">
+        <select class="form-select form-select-sm" aria-label=".form-select-sm" style="width: 15%;">
+            <option selected value="1">Open</option>
+            <option value="2">Done</option>
+          </select>
+          <select class="form-select form-select-sm" aria-label=".form-select-sm" style="width: 15%;">
+            <option selected value="3">High</option>
+            <option value="4">Normal</option>
+            <option value="5">Low</option>
+          </select>
+        <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
 </main>
