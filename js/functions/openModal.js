@@ -1,15 +1,15 @@
+import ModalLogin from "../classes/modal.js";
 import logIn from "./logIn.js";
 
-const createCard = document.querySelector('#createCard');
-function openModal(btn, form, filter) {
+function openModal(btn, filter) {
     btn.addEventListener('click', async () => {
         if (btn.classList.contains('create-btn')) {
+            console.log('Cards render');
             //futher code
         } else {
-            form.classList.remove('d-none');
-            form.classList.add('d-block');
+            new ModalLogin().render();
         
-            await logIn(form, btn, filter);
+            await logIn(btn, filter);
         }
     });
 }

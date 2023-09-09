@@ -3,10 +3,10 @@ import initialRender from "./initialRender.js";
 
 const LOGIN_URL = "https://ajax.test-danit.com/api/v2/cards/login";
 
+async function logIn(btn, filter) {
+    const logInForm = document.querySelector('#formAuthorization');
 
-async function logIn(form, btn, filter) {
-
-    form.addEventListener('submit', async (e) => {
+    logInForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const target = e.target;
@@ -21,11 +21,11 @@ async function logIn(form, btn, filter) {
         if (token) {
             localStorage.setItem('token', token);
 
-            form.classList.add('d-none');
             filter.classList.remove('d-none')
             filter.classList.add('d-block')
             btn.innerText = 'Створити візит';
             btn.classList.add('create-btn');
+            document.querySelector('.modal').remove();
 
             await initialRender();
         };
