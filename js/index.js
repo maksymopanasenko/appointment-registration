@@ -1,13 +1,11 @@
 import initialRender from "./functions/initialRender.js";
 import openModal from "./functions/openModal.js";
 
-const logInForm = document.querySelector('#formAuthorization'),
-      filter = document.querySelector('#filter'),
+const filter = document.querySelector('#filter'),
       btnlogIn = document.querySelector('#logIn');
 
 
 if (localStorage.getItem('token')) {
-    logInForm.style.display = 'none';
     btnlogIn.innerText = 'Створити візит';
     btnlogIn.classList.add('create-btn');
     
@@ -15,4 +13,4 @@ if (localStorage.getItem('token')) {
 }
 
 
-openModal(btnlogIn, logInForm, filter);
+openModal(btnlogIn, filter);
