@@ -3,9 +3,11 @@ import logIn from "./logIn.js";
 
 function openModal(btn, filter) {
     btn.addEventListener('click', async () => {
+        const modal = document.querySelector('.modal');
+        
         if (btn.classList.contains('create-btn')) {
-            console.log('Cards render');
-           new ModalVisits().render();
+            modal ? modal.remove() : null;
+            new ModalVisits().render();
         } else {
             new ModalLogin().render();
         
