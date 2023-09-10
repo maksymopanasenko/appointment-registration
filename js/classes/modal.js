@@ -57,4 +57,58 @@ class ModalLogin extends Modal {
     }
 }
 
-export default ModalLogin;
+class ModalVisits extends Modal {
+    constructor() {
+        super();
+        this.select = document.createElement('select');
+        this.content = document.createElement('div');
+    }
+    createElement() {
+        super.createElement();
+        this.content.classList.add('modal-content', 'border-0');
+        this.content.innerHTML = `
+        <form id="popup" class="popup">
+          
+          <h2>Запис на прийом до лікаря</h2>
+          <select id="doctor-select">
+            <option value="" selected disabled>Выберите врача</option>
+            <option value="cardiologist">Кардіолог</option>
+            <option value="dentist">Стоматолог</option>
+            <option value="therapist">Терапевт</option>
+          </select>
+          <div id="common-fields" class="visit">
+            <input type="text" id="purpose" placeholder="Мета візиту">
+            <textarea id="description" placeholder="Короткий опис візиту"></textarea>
+            <select id="urgency">
+                <option value="" selected disabled>Терміновість</option>
+              <option value="звичайна">Звичайна</option>
+              <option value="пріоритетна">Пріоритетна</option>
+              <option value="невідкладна">Невідкладна</option>
+            </select>
+            <input type="text" id="name" placeholder="ПІБ">
+          </div>
+          <div id="cardiologist-fields" class="hidden">
+            <input type="text" id="blood-pressure" placeholder="Звичайний тиск">
+            <input type="text" id="bmi" placeholder="Індекс маси тіла">
+            <input type="text" id="heart-disease" placeholder="Перенесені захворювання серцево-судинної системи">
+            <input type="text" id="age-cardiologist" placeholder="Вік">
+          </div>
+          <div id="dentist-fields" class="hidden">
+            <label for="last-visit">Дата останнього відвідування</label>
+            <input type="date" id="last-visit" placeholder="Дата останнього відвідування">
+          </div>
+          <div id="therapist-fields" class="hidden">
+            <input type="text" id="age-therapist" placeholder="Вік">
+          </div>
+          <button id="create-visit">Створити</button>
+       
+      </form>
+      `;
+      this.dialog.prepend(this.content);
+    }
+
+}
+
+
+
+export { ModalLogin, ModalVisits };

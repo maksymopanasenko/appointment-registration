@@ -1,11 +1,11 @@
-import ModalLogin from "../classes/modal.js";
+import {ModalLogin, ModalVisits} from "../classes/modal.js";
 import logIn from "./logIn.js";
 
 function openModal(btn, filter) {
     btn.addEventListener('click', async () => {
         if (btn.classList.contains('create-btn')) {
             console.log('Cards render');
-            //futher code
+           new ModalVisits().render();
         } else {
             new ModalLogin().render();
         
