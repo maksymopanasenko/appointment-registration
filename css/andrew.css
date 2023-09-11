@@ -74,12 +74,6 @@
 .hidden{
     display: none;
 }
-
-
-.card{
-    padding: 10px 10px;
-    }
-
-.card p , h3{
-   color:black;
-    }
+.card:first-child{
+    height: 500px;
+}

@@ -8,7 +8,7 @@ body{
     background-size: cover;
     height: 100vh;
 }
-.center {
+center {
     position: absolute;
     left: 0;
     right: 0;
