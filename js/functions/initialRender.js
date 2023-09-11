@@ -1,8 +1,7 @@
 import getCards from "../api/getCards.js";
-import Card from "../classes/cards.js";
+import { CardiologistVisit, DentistVisit, TherapistVisit } from "../classes/visits.js";
 
 
-// В функции initialRender
 async function initialRender() {
     const cards = await getCards();
     const rootContainer = document.getElementById('root');
@@ -10,15 +9,14 @@ async function initialRender() {
     rootContainer.innerHTML = '';
 
     if (cards.length !== 0) {
-        cards.forEach((cardData) => {
-            const cardInstance = new Card(
-                cardData.doctor,
-                cardData.name
-            );
-
-            const cardElement = cardInstance.render();
-
-            rootContainer.appendChild(cardElement);
+        cards.forEach(({doctor, purpose, description, urgency, name, pressure, bmi, disease, age, lastVisit}) => {
+            if (doctor == 'cardiologist') {
+                new CardiologistVisit(doctor, purpose, description, urgency, name, pressure, bmi, disease, age).render()
+            } else if (doctor == 'dentist') {
+                new DentistVisit(doctor, purpose, description, urgency, name, lastVisit).render()
+            } else {
+                new TherapistVisit(doctor, purpose, description, urgency, name, age).render();
+            }
         });
     } else {
         rootContainer.textContent = 'No items have been added';
