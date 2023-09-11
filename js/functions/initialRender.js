@@ -6,6 +6,7 @@ import Card from "../classes/cards.js";
 async function initialRender() {
     const cards = await getCards();
     const rootContainer = document.getElementById('root');
+    console.log(cards);
     rootContainer.innerHTML = '';
 
     if (cards.length !== 0) {
