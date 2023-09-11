@@ -5,6 +5,7 @@ import { CardiologistVisit, DentistVisit, TherapistVisit } from "../classes/visi
 async function initialRender() {
     const cards = await getCards();
     const rootContainer = document.getElementById('root');
+    console.log(cards);
     rootContainer.innerHTML = '';
 
     if (cards.length !== 0) {
