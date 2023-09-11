@@ -21,10 +21,10 @@ class CardiologistVisit extends Visit {
     createFields() {
         this.fields.innerHTML = `
             <div id="cardiologist-fields">
-                <input type="text" id="blood-pressure" placeholder="Звичайний тиск">
-                <input type="text" id="bmi" placeholder="Індекс маси тіла">
-                <input type="text" id="heart-disease" placeholder="Перенесені захворювання серцево-судинної системи">
-                <input type="text" id="age-cardiologist" placeholder="Вік">
+                <input type="text" id="blood-pressure" name="pressure" placeholder="Звичайний тиск" required>
+                <input type="text" id="bmi" name="bmi" placeholder="Індекс маси тіла" required>
+                <input type="text" id="heart-disease" name="disease" placeholder="Перенесені захворювання серцево-судинної системи" required>
+                <input type="text" id="age-cardiologist" name="age" placeholder="Вік" required>
             </div>
         `;
     }
@@ -41,7 +41,7 @@ class DentistVisit extends Visit {
         this.fields.innerHTML = `
             <div id="dentist-fields">
                 <label for="last-visit">Дата останнього відвідування</label>
-                <input type="date" id="last-visit" placeholder="Дата останнього відвідування">
+                <input type="date" id="last-visit" name="lastVisit" placeholder="Дата останнього відвідування" required>
             </div>
         `;
     }
@@ -57,7 +57,7 @@ class TherapistVisit extends Visit {
     createFields() {
         this.fields.innerHTML = `
             <div id="therapist-fields">
-                <input type="text" id="age-therapist" placeholder="Вік">
+                <input type="text" id="age-therapist" name="age" placeholder="Вік" required>
             </div>
         `;
     }

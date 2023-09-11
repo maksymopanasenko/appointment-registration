@@ -1,24 +1,20 @@
-
-async function createCard() {
+async function postCard(body) {
     try {
-      const response = await axios.post('https://ajax.test-danit.com/api/v2/cards', visitData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        const response = await axios.post('https://ajax.test-danit.com/api/v2/cards', body, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+    
+        if (response.status === 200) {
+            document.querySelector('.modal').remove();
+            return response.data;
+        } else {
+            throw new Error('Статус відповіді не 200 OK');
         }
-      });
-  
-      if (response.status === 200) {
-        const createdCard = response.data; 
-        return createdCard;
-      } else {
-        console.error('Статус відповіді не 200 OK');
-        return null;
-      }
     } catch (error) {
-      console.error('Помилка при створенні карточки:', error);
-      return null;
+        console.log('Помилка при створенні карточки:', error.message);
     }
-  }
+}
 
-  export default createCard;
+export default postCard;
