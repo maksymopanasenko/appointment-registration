@@ -66,7 +66,6 @@ class ModalVisits extends Modal {
         this.select = document.createElement('select');
         this.form = document.createElement('form');
         this.title = document.createElement('h2');
-        this.confirmBtn = document.createElement('button');
     }
 
     createElement() {
@@ -79,8 +78,6 @@ class ModalVisits extends Modal {
             <option value="dentist">Стоматолог</option>
             <option value="therapist">Терапевт</option>
         `;
-
-        this.confirmBtn.innerText = 'Створити';
 
         this.form.className = 'popup';
         this.form.innerHTML = `
@@ -96,11 +93,11 @@ class ModalVisits extends Modal {
                     <option value="urgent">Невідкладна</option>
                 </select>
                 <input type="text" id="name" name="name" placeholder="ПІБ" required>
+                <button>Створити</button>
             </div>
         `;
         this.title.innerText = 'Запис на прийом до лікаря';
         this.form.prepend(this.title, this.select);
-        this.form.append(this.confirmBtn);
 
         this.content.append(this.form);
         this.dialog.prepend(this.content);

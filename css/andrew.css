@@ -71,15 +71,11 @@
     gap: 10px;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-
-.card{
-    padding: 10px 10px;
-    }
-
-.card p , h3{
-   color:black;
-    }
+.more-btn {
+    border: 1px solid black;
+    cursor: pointer;
+}

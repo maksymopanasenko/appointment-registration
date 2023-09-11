@@ -1,21 +1,62 @@
 class Visit {
-    constructor(purpose, description, urgency, name) {
+    constructor(doctor, purpose, description, urgency, name) {
+        this.doctor = doctor;
         this.purpose = purpose;
         this.description = description;
         this.urgency = urgency;
         this.name = name;
         this.fields = document.querySelector('.additional-fields');
+        this.card = document.createElement('div');
+        this.visible = document.createElement('div');
+        this.hidden = document.createElement('div');
+        this.btn = document.createElement('buton');
+    }
+
+    createCard() {
+        this.card.classList.add('card', 'mb-1', 'text-dark');
+        this.visible.innerHTML = `
+            <p>${this.doctor}</p>
+            <p>${this.name}</p>
+        `;
+        this.btn.className = 'more-btn';
+        this.btn.innerText = 'More';
+        this.visible.append(this.btn);
+        this.hidden.classList.add('hidden');
+        this.hidden.innerHTML = `
+            <p>${this.purpose}</p>
+            <p>${this.description}</p>
+            <p>${this.urgency}</p>
+        `;
+
+        this.card.append(this.visible, this.hidden);
+    }
+
+    showMore() {
+        this.btn.addEventListener('click', (e) => {
+            e.target.classList.toggle('hide');
+            this.hidden.classList.toggle('hidden')
+            if (e.target.classList.contains('hide')) {
+                this.btn.innerText = 'Hide';
+            } else {
+                this.btn.innerText = 'More';
+            }
+        })
+    }
+
+    render() {
+        this.createCard();
+        this.showMore();
+        document.getElementById('root').append(this.card);
     }
 }
 
 class CardiologistVisit extends Visit {
-    constructor(purpose, description, urgency, name, bloodPressure, bmi, heartDisease, age) {
-        super(purpose, description, urgency, name);
-        this.bloodPressure = bloodPressure;
+    constructor(doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
+        super(doctor, purpose, description, urgency, name);
+        this.pressure = pressure;
         this.bmi = bmi;
-        this.heartDisease = heartDisease;
+        this.disease = disease;
         this.age = age;
-        this.doctor = 'Кардіолог';
     }
 
     createFields() {
@@ -28,13 +69,22 @@ class CardiologistVisit extends Visit {
             </div>
         `;
     }
+
+    createCard() {
+        super.createCard();
+        this.hidden.insertAdjacentHTML('beforeend', `
+            <p>Blood Pressure: ${this.pressure}</p>
+            <p>BMI: ${this.bmi}</p>
+            <p>Heart Disease: ${this.disease}</p>
+            <p>Age: ${this.age}</p>
+        `);
+    }
 }
 
 class DentistVisit extends Visit {
-    constructor(purpose, description, urgency, name, lastVisit) {
-        super(purpose, description, urgency, name);
+    constructor(doctor, purpose, description, urgency, name, lastVisit) {
+        super(doctor, purpose, description, urgency, name);
         this.lastVisit = lastVisit;
-        this.doctor = 'Стоматолог';
     }
 
     createFields() {
@@ -45,13 +95,19 @@ class DentistVisit extends Visit {
             </div>
         `;
     }
+
+    createCard() {
+        super.createCard();
+        this.hidden.insertAdjacentHTML('beforeend', `
+            <p>Last Visit: ${this.lastVisit}</p>
+        `);
+    }
 }
 
 class TherapistVisit extends Visit {
-    constructor(purpose, description, urgency, name, age) {
-        super(purpose, description, urgency, name);
+    constructor(doctor, purpose, description, urgency, name, age) {
+        super(doctor, purpose, description, urgency, name);
         this.age = age;
-        this.doctor = 'Терапевт';
     }
         
     createFields() {
@@ -60,6 +116,13 @@ class TherapistVisit extends Visit {
                 <input type="text" id="age-therapist" name="age" placeholder="Вік" required>
             </div>
         `;
+    }
+
+    createCard() {
+        super.createCard();
+        this.hidden.insertAdjacentHTML('beforeend', `
+            <p>Age: ${this.age}</p>
+        `);
     }
 }
 
