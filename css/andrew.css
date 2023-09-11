@@ -74,3 +74,12 @@
 .hidden{
     display: none;
 }
+
+
+.card{
+    padding: 10px 10px;
+    }
+
+.card p , h3{
+   color:black;
+    }
