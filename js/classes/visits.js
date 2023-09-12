@@ -16,17 +16,17 @@ class Visit {
     createCard() {
         this.card.classList.add('card', 'mb-1', 'text-dark');
         this.visible.innerHTML = `
-            <p>${this.doctor}</p>
-            <p>${this.name}</p>
+            <p class="visible">${this.doctor}</p>
+            <p class="visible">${this.name}</p>
         `;
         this.btn.className = 'more-btn';
         this.btn.innerText = 'More';
         this.visible.append(this.btn);
         this.hidden.classList.add('hidden');
         this.hidden.innerHTML = `
-            <p>${this.purpose}</p>
-            <p>${this.description}</p>
-            <p>${this.urgency}</p>
+            <p class="hidden">${this.purpose}</p>
+            <p class="hidden">${this.description}</p>
+            <p class="hidden">${this.urgency}</p>
         `;
 
         this.card.append(this.visible, this.hidden);

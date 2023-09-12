@@ -26,20 +26,22 @@
             </div>
     </header>
     <main class="container-fluid">
-        <div class="d-none" id="filter">
-        <form class="d-flex justify-content-center gap-3">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" style="width: 25%;">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm" style="width: 15%;">
+        <div class="" id="filter">
+            <form class="d-flex justify-content-center gap-3" id="filterForm">
+                <input class="form-control" type="search" id="searchInput" placeholder="Search" aria-label="Search" style="width: 25%;">
+                <select class="form-select form-select-sm" id="statusSelect" aria-label=".form-select-sm" style="width: 15%;">
                     <option selected value="1">Open</option>
                     <option value="2">Done</option>
                 </select>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm" style="width: 15%;">
-                    <option selected value="3">High</option>
+                <select class="form-select form-select-sm" id="urgencySelect" aria-label=".form-select-sm" style="width: 15%;">
+                    <option value="" selected disabled>Select the urgency</option>
+                    <option value="3">High</option>
                     <option value="4">Normal</option>
                     <option value="5">Low</option>
                 </select>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            
         </div>
         <div id="root" class="d-flex flex-wrap justify-content-center  border-dark rounded my-5 gap-5 fs-1 bg-opacity-50 bg-light" style=" height: 720px; overflow:scroll;">No items have been added</div>
     </main>
