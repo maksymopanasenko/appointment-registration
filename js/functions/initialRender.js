@@ -1,5 +1,4 @@
 import getCards from "../api/getCards.js";
-import filterCards from "./filter.js";
 import { handleProps } from "./handleCardProps.js";
 
 
@@ -13,7 +12,6 @@ async function initialRender() {
         cards.forEach(obj => {
             handleProps(obj);
         });
-        filterCards('', '');
     } else {
         rootContainer.textContent = 'No items have been added';
     }

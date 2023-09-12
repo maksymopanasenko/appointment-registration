@@ -1,4 +1,3 @@
-
 document.getElementById("filterForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Предотвращаем отправку формы, чтобы не перезагружать страницу
     const searchInput = document.getElementById("searchInput").value.toLowerCase();
@@ -8,14 +7,14 @@ document.getElementById("filterForm").addEventListener("submit", function (e) {
     filterCards(searchInput, urgencySelect);
 });
 function filterCards(searchInput, urgencySelect) {
-    const cards = document.querySelectorAll(".card");
+    const cards = document.querySelectorAll(".col-sm-4");
 
-    cards.forEach((card) => {
-        const doctorElement = card.querySelector(".visible p:nth-child(1)");
-        const nameElement = card.querySelector(".visible p:nth-child(2)");
+    cards.forEach(card => {
+        const doctorElement = card.querySelector(".card-title p:nth-child(1)");
+        const nameElement = card.querySelector(".card-title p:nth-child(2)");
         const purposeElement = card.querySelector(".hidden p:nth-child(1)");
         const descriptionElement = card.querySelector(".hidden p:nth-child(2)");
-        const urgencyElement = card.querySelector(".hidden p:nth-child(3)");
+        const urgencyElement = card.querySelector("#urgency");
 
         const doctor = doctorElement ? doctorElement.textContent.toLowerCase() : "";
         const name = nameElement ? nameElement.textContent.toLowerCase() : "";
@@ -30,12 +29,12 @@ function filterCards(searchInput, urgencySelect) {
             description.includes(searchInput);
 
         const isUrgent =
-        (!urgencySelect || urgencySelect === "Select the urgency") || 
-        (urgencySelect === "3" && urgencyText.includes("urgent")) ||
-        (urgencySelect === "4" && urgencyText.includes("priority")) ||
-        (urgencySelect === "5" && urgencyText.includes("regular"));
+            (!urgencySelect || urgencySelect === "Select the urgency") || 
+            (urgencySelect === "3" && urgencyText.includes("urgent")) ||
+            (urgencySelect === "4" && urgencyText.includes("priority")) ||
+            (urgencySelect === "5" && urgencyText.includes("regular"));
 
-        if (containsSearchTerm && isUrgent) {
+        if (isUrgent) {
             card.style.display = "block";
         } else {
             card.style.display = "none";
