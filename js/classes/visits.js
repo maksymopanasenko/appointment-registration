@@ -1,5 +1,6 @@
 class Visit {
-    constructor(doctor, purpose, description, urgency, name) {
+    constructor(id, doctor, purpose, description, urgency, name) {
+        this.id = id;
         this.doctor = doctor;
         this.purpose = purpose;
         this.description = description;
@@ -51,8 +52,8 @@ class Visit {
 }
 
 class CardiologistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
+        super(id, doctor, purpose, description, urgency, name);
         this.pressure = pressure;
         this.bmi = bmi;
         this.disease = disease;
@@ -82,8 +83,8 @@ class CardiologistVisit extends Visit {
 }
 
 class DentistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, lastVisit) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, lastVisit) {
+        super(id, doctor, purpose, description, urgency, name);
         this.lastVisit = lastVisit;
     }
 
@@ -105,8 +106,8 @@ class DentistVisit extends Visit {
 }
 
 class TherapistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, age) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, age) {
+        super(id, doctor, purpose, description, urgency, name);
         this.age = age;
     }
         
