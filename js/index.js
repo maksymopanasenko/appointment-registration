@@ -2,7 +2,6 @@ import initialRender from "./functions/initialRender.js";
 import openModal from "./functions/openModal.js";
 
 
-
 const filter = document.querySelector('#filter'),
       btnlogIn = document.querySelector('#logIn');
 
@@ -15,7 +14,9 @@ if (localStorage.getItem('token')) {
 }
 
 
-
 openModal(btnlogIn, filter);
+
+
+
 
 
