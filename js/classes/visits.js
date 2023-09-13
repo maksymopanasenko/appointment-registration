@@ -7,39 +7,54 @@ class Visit {
         this.urgency = urgency;
         this.name = name;
         this.fields = document.querySelector('.additional-fields');
+        this.column = document.createElement('div');
         this.card = document.createElement('div');
         this.visible = document.createElement('div');
         this.hidden = document.createElement('div');
-        this.btn = document.createElement('buton');
+        this.btn = document.createElement('button');
     }
 
     createCard() {
-        this.card.classList.add('card', 'mb-1', 'text-dark');
+        this.card.classList.add('card', 'mb-3', 'text-dark', 'd-flex');
+        this.column.className = 'col-sm-4';
+        this.visible.className = 'card-body pb-0';
+        this.hidden.className = 'card-body pt-0';
+
         this.visible.innerHTML = `
-            <p class="visible">${this.doctor}</p>
-            <p class="visible">${this.name}</p>
-        `;
-        this.btn.className = 'more-btn';
-        this.btn.innerText = 'More';
-        this.visible.append(this.btn);
-        this.hidden.classList.add('hidden');
-        this.hidden.innerHTML = `
-            <p class="hidden">${this.purpose}</p>
-            <p class="hidden">${this.description}</p>
-            <p class="hidden">${this.urgency}</p>
+            <h5 class="card-title">Doctor: ${this.doctor}</h5>
+            <h5 class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
         `;
 
-        this.card.append(this.visible, this.hidden);
+        this.btn.className = "btn btn-secondary m-2";
+        this.btn.innerText = 'Show more';
+
+        this.hidden.classList.add('hidden');
+        this.hidden.innerHTML = `
+            <p class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
+            <p class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
+            <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
+        `;
+
+        this.card.append(this.visible, this.hidden, this.btn);
+        this.column.append(this.card);
     }
 
     showMore() {
         this.btn.addEventListener('click', (e) => {
-            e.target.classList.toggle('hide');
-            this.hidden.classList.toggle('hidden')
-            if (e.target.classList.contains('hide')) {
+            const target = e.target;
+            target.classList.toggle('hide');
+            target.classList.toggle('btn-warning');
+            this.hidden.classList.toggle('hidden');
+            
+            const card = target.closest('.card');
+            const patientTitle = card.querySelector('.card-title.patient span');
+
+            if (target.classList.contains('hide')) {
                 this.btn.innerText = 'Hide';
+                patientTitle ? patientTitle.textContent = `${this.name}` : null;
             } else {
-                this.btn.innerText = 'More';
+                this.btn.innerText = 'Show more';
+                patientTitle && patientTitle.textContent.length > 20 ? patientTitle.textContent = `${this.name.slice(0, 19) + '...'}` : this.name;
             }
         })
     }
@@ -47,7 +62,7 @@ class Visit {
     render() {
         this.createCard();
         this.showMore();
-        document.getElementById('root').append(this.card);
+        document.getElementById('root').append(this.column);
     }
 }
 
@@ -74,10 +89,10 @@ class CardiologistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Blood Pressure: ${this.pressure}</p>
-            <p>BMI: ${this.bmi}</p>
-            <p>Heart Disease: ${this.disease}</p>
-            <p>Age: ${this.age}</p>
+            <p class="card-text fs-5">Blood Pressure: <span class="text-secondary">${this.pressure}</span></p>
+            <p class="card-text fs-5">BMI: <span class="text-secondary">${this.bmi}</span></p>
+            <p class="card-text fs-5">Heart Disease: <span class="text-secondary">${this.disease}</span></p>
+            <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
     }
 }
@@ -100,7 +115,7 @@ class DentistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Last Visit: ${this.lastVisit}</p>
+            <p class="card-text fs-5">Last Visit: <span class="text-secondary">${this.lastVisit}</span></p>
         `);
     }
 }
@@ -122,7 +137,7 @@ class TherapistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Age: ${this.age}</p>
+            <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
     }
 }
