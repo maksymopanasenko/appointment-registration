@@ -21,8 +21,8 @@ class Visit {
         this.hidden.className = 'card-body pt-0';
 
         this.visible.innerHTML = `
-            <h5 class="card-title">Doctor: ${this.doctor}</h5>
-            <h5 class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
+            <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
+            <h5 id="name" class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
         `;
 
         this.btn.className = "btn btn-secondary m-2";
@@ -30,8 +30,8 @@ class Visit {
 
         this.hidden.classList.add('hidden');
         this.hidden.innerHTML = `
-            <p class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
-            <p class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
+            <p id="reason" class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
+            <p id="description" class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
             <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
         `;
 
