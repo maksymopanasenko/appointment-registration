@@ -1,14 +1,17 @@
+import deleteCards from "../api/deleteCards.js";
 class Visit {
-    constructor(doctor, purpose, description, urgency, name) {
+    constructor(doctor, purpose, description, urgency, name, id) {
         this.doctor = doctor;
         this.purpose = purpose;
         this.description = description;
         this.urgency = urgency;
         this.name = name;
+        this.id = id;
         this.fields = document.querySelector('.additional-fields');
         this.card = document.createElement('div');
         this.visible = document.createElement('div');
         this.hidden = document.createElement('div');
+        this.closeBtn = document.createElement('button');
         this.btn = document.createElement('buton');
     }
 
@@ -18,9 +21,13 @@ class Visit {
             <p>${this.doctor}</p>
             <p>${this.name}</p>
         `;
+        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-1');
+        this.closeBtn.style.width = '2px'
+        this.closeBtn.style.height = '2px'
         this.btn.className = 'more-btn';
         this.btn.innerText = 'More';
         this.visible.append(this.btn);
+        this.visible.append(this.closeBtn);
         this.hidden.classList.add('hidden');
         this.hidden.innerHTML = `
             <p>${this.purpose}</p>
@@ -29,6 +36,12 @@ class Visit {
         `;
 
         this.card.append(this.visible, this.hidden);
+        this.deletePost();
+    }
+    deletePost(){
+        this.closeBtn.addEventListener('click',async () =>{
+            return await deleteCards(this.id);
+        })
     }
 
     showMore() {
@@ -51,8 +64,8 @@ class Visit {
 }
 
 class CardiologistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(doctor, purpose, description, urgency, name, id,pressure, bmi, disease, age) {
+        super(doctor, purpose, description, urgency, name, id);
         this.pressure = pressure;
         this.bmi = bmi;
         this.disease = disease;
@@ -82,8 +95,8 @@ class CardiologistVisit extends Visit {
 }
 
 class DentistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, lastVisit) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(doctor, purpose, description, urgency, name, id,lastVisit) {
+        super(doctor, purpose, description, urgency, name, id);
         this.lastVisit = lastVisit;
     }
 
@@ -105,8 +118,8 @@ class DentistVisit extends Visit {
 }
 
 class TherapistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, age) {
-        super(doctor, purpose, description, urgency, name);
+    constructor(doctor, purpose, description, urgency, name, id, age) {
+        super(doctor, purpose, description, urgency, name, id);
         this.age = age;
     }
         

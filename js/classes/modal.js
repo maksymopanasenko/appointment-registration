@@ -14,7 +14,7 @@ class Modal {
         this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light');
         this.content.classList.add('modal-content', 'border-0');
         this.dialog.style.pointerEvents = 'all';
-        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0');
+        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-1');
         this.dialog.append(this.closeBtn);
         this.modal.append(this.dialog);
 

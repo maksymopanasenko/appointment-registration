@@ -9,13 +9,13 @@ async function initialRender() {
     rootContainer.innerHTML = '';
 
     if (cards.length !== 0) {
-        cards.forEach(({doctor, purpose, description, urgency, name, pressure, bmi, disease, age, lastVisit}) => {
+        cards.forEach(({doctor, purpose, description, urgency, name, id, pressure, bmi, disease, age, lastVisit}) => {
             if (doctor == 'cardiologist') {
-                new CardiologistVisit(doctor, purpose, description, urgency, name, pressure, bmi, disease, age).render()
+                new CardiologistVisit(doctor, purpose, description, urgency, name, id, pressure, bmi, disease, age).render()
             } else if (doctor == 'dentist') {
-                new DentistVisit(doctor, purpose, description, urgency, name, lastVisit).render()
+                new DentistVisit(doctor, purpose, description, urgency, name, id, lastVisit).render()
             } else {
-                new TherapistVisit(doctor, purpose, description, urgency, name, age).render();
+                new TherapistVisit(doctor, purpose, description, urgency, name, id, age).render();
             }
         });
     } else {
