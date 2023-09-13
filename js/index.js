@@ -3,8 +3,6 @@ import openModal from "./functions/openModal.js";
 
 
 
-
-
 const filter = document.querySelector('#filter'),
       btnlogIn = document.querySelector('#logIn');
 
@@ -16,4 +14,8 @@ if (localStorage.getItem('token')) {
     await initialRender();
 }
 
+
+
 openModal(btnlogIn, filter);
+
+

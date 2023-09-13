@@ -1,6 +1,7 @@
 import deleteCards from "../api/deleteCards.js";
 class Visit {
-    constructor(doctor, purpose, description, urgency, name, id) {
+    constructor(id, doctor, purpose, description, urgency, name) {
+        this.id = id;
         this.doctor = doctor;
         this.purpose = purpose;
         this.description = description;
@@ -8,64 +9,77 @@ class Visit {
         this.name = name;
         this.id = id;
         this.fields = document.querySelector('.additional-fields');
+        this.column = document.createElement('div');
         this.card = document.createElement('div');
         this.visible = document.createElement('div');
         this.hidden = document.createElement('div');
         this.closeBtn = document.createElement('button');
-        this.btn = document.createElement('buton');
+        this.btn = document.createElement('button');
     }
 
     createCard() {
-        this.card.classList.add('card', 'mb-1', 'text-dark');
+        this.card.classList.add('card', 'mb-3', 'text-dark', 'd-flex');
+        this.column.className = 'col-sm-4';
+        this.visible.className = 'card-body pb-0';
+        this.hidden.className = 'card-body pt-0';
+        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-2');
+        this.closeBtn.style.width = '2px';
+        this.closeBtn.style.height = '2px';
         this.visible.innerHTML = `
-            <p>${this.doctor}</p>
-            <p>${this.name}</p>
-        `;
-        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-1');
-        this.closeBtn.style.width = '2px'
-        this.closeBtn.style.height = '2px'
-        this.btn.className = 'more-btn';
-        this.btn.innerText = 'More';
-        this.visible.append(this.btn);
-        this.visible.append(this.closeBtn);
-        this.hidden.classList.add('hidden');
-        this.hidden.innerHTML = `
-            <p>${this.purpose}</p>
-            <p>${this.description}</p>
-            <p>${this.urgency}</p>
+            <h5 class="card-title">Doctor: ${this.doctor}</h5>
+            <h5 class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
         `;
 
-        this.card.append(this.visible, this.hidden);
-        this.deletePost();
+        this.btn.className = "btn btn-secondary m-2";
+        this.btn.innerText = 'Show more';
+
+        this.hidden.classList.add('hidden');
+        this.hidden.innerHTML = `
+            <p class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
+            <p class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
+            <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
+        `;
+        this.visible.append(this.closeBtn);
+        this.card.append(this.visible, this.hidden, this.btn);
+        this.column.append(this.card);
     }
-    deletePost(){
-        this.closeBtn.addEventListener('click',async () =>{
-            return await deleteCards(this.id);
+    deleteCards(){
+        this.closeBtn.addEventListener('click', async() => {
+            return await deleteCards(this.id)
         })
     }
 
-    showMore() {
+    showMore(){
         this.btn.addEventListener('click', (e) => {
-            e.target.classList.toggle('hide');
-            this.hidden.classList.toggle('hidden')
-            if (e.target.classList.contains('hide')) {
+            const target = e.target;
+            target.classList.toggle('hide');
+            target.classList.toggle('btn-warning');
+            this.hidden.classList.toggle('hidden');
+            
+            const card = target.closest('.card');
+            const patientTitle = card.querySelector('.card-title.patient span');
+
+            if (target.classList.contains('hide')) {
                 this.btn.innerText = 'Hide';
+                patientTitle ? patientTitle.textContent = `${this.name}` : null;
             } else {
-                this.btn.innerText = 'More';
+                this.btn.innerText = 'Show more';
+                patientTitle && patientTitle.textContent.length > 20 ? patientTitle.textContent = `${this.name.slice(0, 19) + '...'}` : this.name;
             }
         })
     }
 
     render() {
+        this.deleteCards();
         this.createCard();
         this.showMore();
-        document.getElementById('root').append(this.card);
+        document.getElementById('root').append(this.column);
     }
 }
 
 class CardiologistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, id,pressure, bmi, disease, age) {
-        super(doctor, purpose, description, urgency, name, id);
+    constructor(id, doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
+        super(id, doctor, purpose, description, urgency, name);
         this.pressure = pressure;
         this.bmi = bmi;
         this.disease = disease;
@@ -86,17 +100,17 @@ class CardiologistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Blood Pressure: ${this.pressure}</p>
-            <p>BMI: ${this.bmi}</p>
-            <p>Heart Disease: ${this.disease}</p>
-            <p>Age: ${this.age}</p>
+            <p class="card-text fs-5">Blood Pressure: <span class="text-secondary">${this.pressure}</span></p>
+            <p class="card-text fs-5">BMI: <span class="text-secondary">${this.bmi}</span></p>
+            <p class="card-text fs-5">Heart Disease: <span class="text-secondary">${this.disease}</span></p>
+            <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
     }
 }
 
 class DentistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, id,lastVisit) {
-        super(doctor, purpose, description, urgency, name, id);
+    constructor(id, doctor, purpose, description, urgency, name, lastVisit) {
+        super(id, doctor, purpose, description, urgency, name);
         this.lastVisit = lastVisit;
     }
 
@@ -112,14 +126,14 @@ class DentistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Last Visit: ${this.lastVisit}</p>
+            <p class="card-text fs-5">Last Visit: <span class="text-secondary">${this.lastVisit}</span></p>
         `);
     }
 }
 
 class TherapistVisit extends Visit {
-    constructor(doctor, purpose, description, urgency, name, id, age) {
-        super(doctor, purpose, description, urgency, name, id);
+    constructor(id, doctor, purpose, description, urgency, name, age) {
+        super(id, doctor, purpose, description, urgency, name);
         this.age = age;
     }
         
@@ -134,7 +148,7 @@ class TherapistVisit extends Visit {
     createCard() {
         super.createCard();
         this.hidden.insertAdjacentHTML('beforeend', `
-            <p>Age: ${this.age}</p>
+            <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
     }
 }
