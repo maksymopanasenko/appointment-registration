@@ -1,10 +1,7 @@
 async function deleteCards(id){
     try{
         const response = await fetch(`http://ajax.test-danit.com/api/v2/cards/${id}`,{
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+            method: 'DELETE'
         })
         const result = await response.text()
     
