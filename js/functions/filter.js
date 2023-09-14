@@ -6,7 +6,7 @@ document.getElementById("filterForm").addEventListener("submit", function (e) {
     filterCards(searchInput, urgencySelect);
 });
 function filterCards(searchInput, urgencySelect) {
-    const cards = document.querySelectorAll(".col-sm-4");
+    const cards = document.querySelectorAll(".col-sm-6");
 
     cards.forEach(card => {
         const doctorElement = card.querySelector("#doctor");

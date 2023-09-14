@@ -1,3 +1,5 @@
+import { ModalEdit } from "./modal.js";
+
 class Visit {
     constructor(id, doctor, purpose, description, urgency, name) {
         this.id = id;
@@ -11,23 +13,36 @@ class Visit {
         this.card = document.createElement('div');
         this.visible = document.createElement('div');
         this.hidden = document.createElement('div');
-        this.btn = document.createElement('button');
+        this.btnContent = document.createElement('button');
+        this.btns = document.createElement('div');
+        this.btnClose = document.createElement('button');
+        this.btnEdit = document.createElement('button');
     }
 
     createCard() {
         this.card.classList.add('card', 'mb-3', 'text-dark', 'd-flex');
-        this.column.className = 'col-sm-4';
-        this.visible.className = 'card-body pb-0';
+        this.column.className = 'col-sm-6 col-xl-4';
+        this.visible.className = 'card-body d-flex justify-content-between align-items-start gap-2 pb-0';
         this.hidden.className = 'card-body pt-0';
 
         this.visible.innerHTML = `
-            <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
-            <h5 id="name" class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
+            <div>
+                <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
+                <h5 id="name" class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
+            </div>
         `;
 
-        this.btn.className = "btn btn-secondary m-2";
-        this.btn.innerText = 'Show more';
+        this.btns.className = 'btn-group-vertical';
 
+        this.btnContent.className = "btn btn-secondary m-2";
+        this.btnContent.innerText = 'Show more';
+        this.btnEdit.className = "btn btn-primary";
+        this.btnEdit.innerHTML = '<img src="icons/pencil.png" alt="edit" width="15px">';
+        this.btnClose.innerText = 'x';
+        this.btnClose.className = "btn btn-danger";
+
+        this.btns.append(this.btnClose, this.btnEdit);
+        this.visible.append(this.btns);
         this.hidden.classList.add('hidden');
         this.hidden.innerHTML = `
             <p id="reason" class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
@@ -35,12 +50,15 @@ class Visit {
             <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
         `;
 
-        this.card.append(this.visible, this.hidden, this.btn);
+        this.card.append(this.visible, this.hidden, this.btnContent);
         this.column.append(this.card);
+        
+        this.showMore();
+        this.editCard();
     }
 
     showMore() {
-        this.btn.addEventListener('click', (e) => {
+        this.btnContent.addEventListener('click', (e) => {
             const target = e.target;
             target.classList.toggle('hide');
             target.classList.toggle('btn-warning');
@@ -50,18 +68,25 @@ class Visit {
             const patientTitle = card.querySelector('.card-title.patient span');
 
             if (target.classList.contains('hide')) {
-                this.btn.innerText = 'Hide';
+                this.btnContent.innerText = 'Hide';
                 patientTitle ? patientTitle.textContent = `${this.name}` : null;
             } else {
-                this.btn.innerText = 'Show more';
+                this.btnContent.innerText = 'Show more';
                 patientTitle && patientTitle.textContent.length > 20 ? patientTitle.textContent = `${this.name.slice(0, 19) + '...'}` : this.name;
             }
         })
     }
 
+    editCard() {
+        this.btnEdit.addEventListener('click', () => {
+            new ModalEdit(this.id, this.column, this.name, this.doctor, this.purpose, this.description, this.urgency, this.pressure, this.bmi, this.disease, this.age, this.lastVisit).render();
+        
+            document.querySelector('.popup').classList.remove('post-form');
+        });
+    }
+
     render() {
         this.createCard();
-        this.showMore();
         document.getElementById('root').append(this.column);
     }
 }
