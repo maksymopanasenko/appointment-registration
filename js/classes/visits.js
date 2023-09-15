@@ -1,3 +1,4 @@
+import deleteCards from "../api/deleteCards.js";
 import { ModalEdit } from "./modal.js";
 
 class Visit {
@@ -24,7 +25,6 @@ class Visit {
         this.column.className = 'col-sm-6 col-xl-4';
         this.visible.className = 'card-body d-flex justify-content-between align-items-start gap-2 pb-0';
         this.hidden.className = 'card-body pt-0';
-
         this.visible.innerHTML = `
             <div>
                 <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
@@ -55,6 +55,11 @@ class Visit {
         
         this.showMore();
         this.editCard();
+    }
+    deleteCards(){
+        this.btnClose.addEventListener('click', async() => {
+            return await deleteCards(this.id)
+        })
     }
 
     showMore() {
@@ -88,6 +93,7 @@ class Visit {
     render() {
         this.createCard();
         document.getElementById('root').append(this.column);
+        this.deleteCards();
     }
 }
 
