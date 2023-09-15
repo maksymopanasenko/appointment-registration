@@ -1,19 +1,17 @@
+
 import getCards from "../api/getCards.js";
 import { handleProps } from "./handleCardProps.js";
 
 
 async function initialRender() {
     const cards = await getCards();
-    const rootContainer = document.getElementById('root');
-    rootContainer.innerHTML = '';
-
+console.log(cards);
     if (cards.length !== 0) {
+        document.getElementById('no-item').classList.add('d-none');
 
         cards.forEach(obj => {
             handleProps(obj);
         });
-    } else {
-        rootContainer.textContent = 'No items have been added';
     }
 }
 

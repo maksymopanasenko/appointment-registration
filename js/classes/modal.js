@@ -143,6 +143,7 @@ class ModalVisits extends Modal {
             const target = e.target;
 
             target.querySelectorAll('input').forEach(input => {
+                // console.log(input);
                 this.body[input.name] = input.value;
             });
             target.querySelectorAll('select').forEach(select => {
@@ -151,13 +152,20 @@ class ModalVisits extends Modal {
             const textarea = target.querySelector('textarea');
 
             this.body[textarea.name] = textarea.value;
+
+            this.body.status = this.status;
+            console.log(this.status);
             target.reset();
 
             if (this.form.classList.contains('post-form')) {
+                this.body.status = false;
+                console.log(this.body);
                 await postCard(this.body);
             } else {
+                console.log(this.body);
                 const data = await updateCard(this.id, this.body);
                 this.form.classList.add('post-form');
+                document.querySelector('.modal').remove();
                 this.column.remove();
                 handleProps(data);
             }
@@ -166,9 +174,10 @@ class ModalVisits extends Modal {
 }
 
 class ModalEdit extends ModalVisits {
-    constructor(id, column, name, doctor, purpose, description, urgency, ...rest) {
+    constructor(id, column, name, doctor, purpose, description, urgency, status, ...rest) {
         super();
         this.id = id;
+        this.status = status;
         this.column = column;
         this.name = name;
         this.doctor = doctor;

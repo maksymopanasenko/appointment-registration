@@ -7,7 +7,6 @@ async function updateCard(id, body) {
     });
 
     if (response.status == 200) {
-        document.querySelector('.modal').remove();
         return response.data;
     }
 }
