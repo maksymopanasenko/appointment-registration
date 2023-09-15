@@ -13,10 +13,10 @@ class Modal {
 
     createElement() {
         this.modal.classList.add('modal', 'fade', 'show', 'd-block', 'd-flex', 'justify-content-center', 'align-items-center');
-        this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light');
-        this.content.classList.add('modal-content', 'border-0');
+        this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light', 'w-50');
+        this.content.classList.add('modal-content', 'text-center', 'border-0');
         this.dialog.style.pointerEvents = 'all';
-        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-1');
+        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-2');
         this.dialog.append(this.closeBtn);
         this.modal.append(this.dialog);
 
@@ -66,6 +66,7 @@ class ModalVisits extends Modal {
     constructor() {
         super();
         this.body = {};
+        this.label = document.createElement('label');
         this.select = document.createElement('select');
         this.form = document.createElement('form');
         this.title = document.createElement('h2');
@@ -77,6 +78,7 @@ class ModalVisits extends Modal {
         this.select.setAttribute('required', '');
         this.select.setAttribute('name', 'doctor');
         this.select.setAttribute('id', 'doctor');
+        this.select.className = 'form-select';
         this.select.innerHTML = `
             <option value="" selected disabled>Оберіть лікаря</option>
             <option value="cardiologist">Кардіолог</option>
@@ -84,28 +86,35 @@ class ModalVisits extends Modal {
             <option value="therapist">Терапевт</option>
         `;
 
-        this.submitBtn.className = 'submit';
+        this.label.className = "form-label d-block text-start fw-bold";
+        this.label.innerText = 'Лікар:';
+        this.submitBtn.className = 'btn btn-primary mt-2';
         this.submitBtn.innerText = 'Створити';
 
         this.form.className = 'popup post-form';
         this.form.innerHTML = `
-            <div id="common-fields" class="visit">
+            <div id="common-fields" class="d-flex flex-column gap-1">
                 <div class="additional-fields"></div>
 
-                <input type="text" id="purpose" name="purpose" placeholder="Мета візиту" required>
-                <textarea id="description" name="description" placeholder="Короткий опис візиту"></textarea>
-                <select id="urgency" name="urgency" required>
-                    <option value="" selected disabled>Терміновість</option>
+                <label class="form-label text-start fw-bold">Мета візиту:</label>
+                <input type="text" id="purpose" class="form-control" name="purpose" placeholder="Мета візиту" required>
+                <label class="form-label text-start fw-bold">Короткий опис візиту:</label>
+                <textarea id="description" class="form-control" row="2" name="description" placeholder="Короткий опис візиту"></textarea>
+                <label class="form-label text-start fw-bold">Терміновість:</label>
+                <select id="urgency" class='form-select' name="urgency" required>
+                    <option value="" selected disabled>Оберіть терміновість</option>
                     <option value="regular">Звичайна</option>
                     <option value="priority">Пріоритетна</option>
                     <option value="urgent">Невідкладна</option>
                 </select>
-                <input type="text" id="name" name="name" placeholder="ПІБ" required>
-                
+                <label class="form-label text-start fw-bold">Name, surname:</label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="ПІБ" required>
             </div>
         `;
         this.title.innerText = 'Запис на прийом до лікаря';
-        this.form.prepend(this.title, this.select);
+        this.title.className = 'modal-title mb-3';
+
+        this.form.prepend(this.title, this.label, this.select);
         this.form.append(this.submitBtn);
 
         this.content.append(this.form);
