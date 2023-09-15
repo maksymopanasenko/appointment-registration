@@ -1,14 +1,17 @@
 import deleteCards from "../api/deleteCards.js";
+import updateCard from "../api/updateCard.js";
 import { ModalEdit } from "./modal.js";
 
 class Visit {
-    constructor(id, doctor, purpose, description, urgency, name) {
+    constructor(id, doctor, purpose, description, urgency, name, status) {
         this.id = id;
         this.doctor = doctor;
         this.purpose = purpose;
         this.description = description;
         this.urgency = urgency;
         this.name = name;
+        this.status = status;
+        this.body = {};
         this.fields = document.querySelector('.additional-fields');
         this.column = document.createElement('div');
         this.card = document.createElement('div');
@@ -18,6 +21,8 @@ class Visit {
         this.btns = document.createElement('div');
         this.btnClose = document.createElement('button');
         this.btnEdit = document.createElement('button');
+        this.checkHolder = document.createElement('div');
+        this.checkBox = document.createElement('input');
     }
 
     createCard() {
@@ -43,6 +48,15 @@ class Visit {
         this.btnClose.className = "btn btn-danger";
 
         this.btns.append(this.btnClose, this.btnEdit);
+
+        this.checkBox.setAttribute('type', 'checkbox');
+        this.checkBox.classList.add('check-box');
+        this.status ? this.checkBox.setAttribute('checked', '') : null;
+
+        this.checkHolder.className = 'card-body';
+        this.checkHolder.innerHTML = '<label class="h5 me-3">Realized visit</label>';
+        this.checkHolder.append(this.checkBox);
+
         this.visible.append(this.btns);
         this.hidden.innerHTML = `
             <p id="reason" class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
@@ -50,16 +64,32 @@ class Visit {
             <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
         `;
 
-        this.card.append(this.visible, this.hidden, this.btnContent);
+        this.card.append(this.visible, this.hidden, this.checkHolder, this.btnContent);
         this.column.append(this.card);
         
         this.showMore();
         this.editCard();
+        this.changeStatus();
     }
 
-    deleteCards(){
+    deleteCards() {
         this.btnClose.addEventListener('click', async () => {
             return await deleteCards(this.id);
+        });
+    }
+
+    changeStatus() {
+        this.body.name = this.name;
+        this.body.doctor = this.doctor;
+        this.body.purpose = this.purpose;
+        this.body.description = this.description;
+        this.body.urgency = this.urgency;
+
+        this.checkBox.addEventListener('change', async () => {
+            this.body.status = !this.status;
+            this.status = !this.status;
+            console.log(this.body);
+            await updateCard(this.id, this.body);
         });
     }
 
@@ -85,7 +115,7 @@ class Visit {
 
     editCard() {
         this.btnEdit.addEventListener('click', () => {
-            new ModalEdit(this.id, this.column, this.name, this.doctor, this.purpose, this.description, this.urgency, this.pressure, this.bmi, this.disease, this.age, this.lastVisit).render();
+            new ModalEdit(this.id, this.column, this.name, this.doctor, this.purpose, this.description, this.urgency, this.status, this.pressure, this.bmi, this.disease, this.age, this.lastVisit).render();
         
             document.querySelector('.popup').classList.remove('post-form');
         });
@@ -94,13 +124,14 @@ class Visit {
     render() {
         this.createCard();
         this.deleteCards();
+        document.getElementById('no-item').classList.add('d-none');
         document.getElementById('root').append(this.column);
     }
 }
 
 class CardiologistVisit extends Visit {
-    constructor(id, doctor, purpose, description, urgency, name, pressure, bmi, disease, age) {
-        super(id, doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, status, pressure, bmi, disease, age) {
+        super(id, doctor, purpose, description, urgency, name, status);
         this.pressure = pressure;
         this.bmi = bmi;
         this.disease = disease;
@@ -121,7 +152,7 @@ class CardiologistVisit extends Visit {
                     <input type="text" id="heart-disease" class="form-control" name="disease" placeholder="Перенесені ССЗ" required>
                     <label for="age-cardiologist" class="input-group-text fw-bold">Вік:</label>
                     <input type="text" id="age-cardiologist" class="form-control" name="age" placeholder="Вік" required>
-                </div>
+                </div>editCard
             </div>
         `;
     }
@@ -135,11 +166,19 @@ class CardiologistVisit extends Visit {
             <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
     }
+
+    changeStatus() {
+        super.changeStatus();
+        this.body.pressure = this.pressure;
+        this.body.bmi = this.bmi;
+        this.body.disease = this.disease;
+        this.body.age = this.age;
+    }
 }
 
 class DentistVisit extends Visit {
-    constructor(id, doctor, purpose, description, urgency, name, lastVisit) {
-        super(id, doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, status, lastVisit) {
+        super(id, doctor, purpose, description, urgency, name, status);
         this.lastVisit = lastVisit;
     }
 
@@ -158,11 +197,16 @@ class DentistVisit extends Visit {
             <p class="card-text fs-5">Last Visit: <span class="text-secondary">${this.lastVisit}</span></p>
         `);
     }
+    
+    changeStatus() {
+        super.changeStatus();
+        this.body.lastVisit = this.lastVisit;
+    }
 }
 
 class TherapistVisit extends Visit {
-    constructor(id, doctor, purpose, description, urgency, name, age) {
-        super(id, doctor, purpose, description, urgency, name);
+    constructor(id, doctor, purpose, description, urgency, name, status, age) {
+        super(id, doctor, purpose, description, urgency, name, status);
         this.age = age;
     }
         
@@ -180,6 +224,11 @@ class TherapistVisit extends Visit {
         this.hidden.insertAdjacentHTML('beforeend', `
             <p class="card-text fs-5">Age: <span class="text-secondary">${this.age}</span></p>
         `);
+    }
+
+    changeStatus() {
+        super.changeStatus();
+        this.body.age = this.age;
     }
 }
 
