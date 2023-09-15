@@ -17,11 +17,4 @@ async function initialRender() {
     }
 }
 
-// Вызываем функцию initialRender после загрузки DOM
-document.addEventListener("DOMContentLoaded", function () {
-    initialRender();
-});
-
-
-
 export default initialRender;

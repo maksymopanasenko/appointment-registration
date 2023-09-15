@@ -24,7 +24,8 @@ class Visit {
         this.card.classList.add('card', 'mb-3', 'text-dark', 'd-flex');
         this.column.className = 'col-sm-6 col-xl-4';
         this.visible.className = 'card-body d-flex justify-content-between align-items-start gap-2 pb-0';
-        this.hidden.className = 'card-body pt-0';
+        this.hidden.className = 'card-body pt-0 d-none';
+
         this.visible.innerHTML = `
             <div>
                 <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
@@ -43,7 +44,6 @@ class Visit {
 
         this.btns.append(this.btnClose, this.btnEdit);
         this.visible.append(this.btns);
-        this.hidden.classList.add('hidden');
         this.hidden.innerHTML = `
             <p id="reason" class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
             <p id="description" class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
@@ -56,10 +56,11 @@ class Visit {
         this.showMore();
         this.editCard();
     }
+
     deleteCards(){
-        this.btnClose.addEventListener('click', async() => {
-            return await deleteCards(this.id)
-        })
+        this.btnClose.addEventListener('click', async () => {
+            return await deleteCards(this.id);
+        });
     }
 
     showMore() {
@@ -67,7 +68,7 @@ class Visit {
             const target = e.target;
             target.classList.toggle('hide');
             target.classList.toggle('btn-warning');
-            this.hidden.classList.toggle('hidden');
+            this.hidden.classList.toggle('d-none');
             
             const card = target.closest('.card');
             const patientTitle = card.querySelector('.card-title.patient span');
@@ -79,7 +80,7 @@ class Visit {
                 this.btnContent.innerText = 'Show more';
                 patientTitle && patientTitle.textContent.length > 20 ? patientTitle.textContent = `${this.name.slice(0, 19) + '...'}` : this.name;
             }
-        })
+        });
     }
 
     editCard() {
@@ -92,8 +93,8 @@ class Visit {
 
     render() {
         this.createCard();
-        document.getElementById('root').append(this.column);
         this.deleteCards();
+        document.getElementById('root').append(this.column);
     }
 }
 
@@ -108,11 +109,19 @@ class CardiologistVisit extends Visit {
 
     createFields() {
         this.fields.innerHTML = `
-            <div id="cardiologist-fields">
-                <input type="text" id="blood-pressure" name="pressure" placeholder="Звичайний тиск" required>
-                <input type="text" id="bmi" name="bmi" placeholder="Індекс маси тіла" required>
-                <input type="text" id="heart-disease" name="disease" placeholder="Перенесені захворювання серцево-судинної системи" required>
-                <input type="text" id="age-cardiologist" name="age" placeholder="Вік" required>
+            <div id="cardiologist-fields" class="my-2">
+                <div class="input-group input-group-sm mb-2">
+                    <label for="blood-pressure" class="input-group-text fw-bold">Тиск:</label>
+                    <input type="text" id="blood-pressure" class="form-control" name="pressure" placeholder="Звичайний тиск" required>
+                    <label for="bmi" class="input-group-text fw-bold">Індекс маси тіла:</label>
+                    <input type="text" id="bmi" name="bmi" class="form-control" placeholder="Індекс маси тіла" required>
+                </div>
+                <div class="input-group input-group-sm">
+                    <label for="heart-disease" class="input-group-text fw-bold">Перенесені ССЗ:</label>
+                    <input type="text" id="heart-disease" class="form-control" name="disease" placeholder="Перенесені ССЗ" required>
+                    <label for="age-cardiologist" class="input-group-text fw-bold">Вік:</label>
+                    <input type="text" id="age-cardiologist" class="form-control" name="age" placeholder="Вік" required>
+                </div>
             </div>
         `;
     }
@@ -136,9 +145,9 @@ class DentistVisit extends Visit {
 
     createFields() {
         this.fields.innerHTML = `
-            <div id="dentist-fields">
-                <label for="last-visit">Дата останнього відвідування</label>
-                <input type="date" id="last-visit" name="lastVisit" placeholder="Дата останнього відвідування" required>
+            <div id="dentist-fields" class="d-flex my-2">
+                <label for="last-visit" class="form-label text-start fw-bold">Дата останнього відвідування:</label>
+                <input type="date" id="last-visit" class="form-control" name="lastVisit" placeholder="Дата останнього відвідування" required>
             </div>
         `;
     }
@@ -159,8 +168,9 @@ class TherapistVisit extends Visit {
         
     createFields() {
         this.fields.innerHTML = `
-            <div id="therapist-fields">
-                <input type="text" id="age-therapist" name="age" placeholder="Вік" required>
+            <div id="therapist-fields" class="my-2 text-start">
+                <label for="age-therapist" class="form-label fw-bold">Вік:</label>
+                <input type="text" id="age-therapist" class="form-control" name="age" placeholder="Повних років" required>
             </div>
         `;
     }
