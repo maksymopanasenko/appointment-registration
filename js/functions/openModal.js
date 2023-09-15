@@ -13,7 +13,7 @@ function openModal(btn, filter) {
             new ModalLogin().render();
 
             await logIn(btn, filter);
-            filterCards(filter.value.toLowerCase(), document.getElementById("urgencySelect").value);
+            filterCards(filter.value.toLowerCase(), document.getElementById("searchInput"), document.getElementById("statusSelect").value, document.getElementById("urgencySelect").value);
         }
     });
 }

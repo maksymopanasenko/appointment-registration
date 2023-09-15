@@ -1,4 +1,6 @@
 import postCard from "../api/postCards.js";
+import updateCard from "../api/updateCard.js";
+import { handleProps } from "../functions/handleCardProps.js";
 import { TherapistVisit, DentistVisit, CardiologistVisit } from "./visits.js";
 
 class Modal {
@@ -24,7 +26,7 @@ class Modal {
     closeModal() {
         this.modal.addEventListener('click', (e) => {
             if (e.target == this.modal || e.target == this.closeBtn) {
-                this.modal.classList.add('d-none');
+                this.modal.remove();
             }
         });
     }
@@ -63,15 +65,18 @@ class ModalLogin extends Modal {
 class ModalVisits extends Modal {
     constructor() {
         super();
+        this.body = {};
         this.select = document.createElement('select');
         this.form = document.createElement('form');
         this.title = document.createElement('h2');
+        this.submitBtn = document.createElement('button');
     }
 
     createElement() {
         super.createElement();
         this.select.setAttribute('required', '');
         this.select.setAttribute('name', 'doctor');
+        this.select.setAttribute('id', 'doctor');
         this.select.innerHTML = `
             <option value="" selected disabled>Оберіть лікаря</option>
             <option value="cardiologist">Кардіолог</option>
@@ -79,7 +84,10 @@ class ModalVisits extends Modal {
             <option value="therapist">Терапевт</option>
         `;
 
-        this.form.className = 'popup';
+        this.submitBtn.className = 'submit';
+        this.submitBtn.innerText = 'Створити';
+
+        this.form.className = 'popup post-form';
         this.form.innerHTML = `
             <div id="common-fields" class="visit">
                 <div class="additional-fields"></div>
@@ -93,11 +101,12 @@ class ModalVisits extends Modal {
                     <option value="urgent">Невідкладна</option>
                 </select>
                 <input type="text" id="name" name="name" placeholder="ПІБ" required>
-                <button>Створити</button>
+                
             </div>
         `;
         this.title.innerText = 'Запис на прийом до лікаря';
         this.form.prepend(this.title, this.select);
+        this.form.append(this.submitBtn);
 
         this.content.append(this.form);
         this.dialog.prepend(this.content);
@@ -123,21 +132,90 @@ class ModalVisits extends Modal {
         this.form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const target = e.target;
-            const body = {};
 
             target.querySelectorAll('input').forEach(input => {
-                body[input.name] = input.value;
+                this.body[input.name] = input.value;
             });
             target.querySelectorAll('select').forEach(select => {
-                body[select.name] = select.value;
+                this.body[select.name] = select.value;
             });
             const textarea = target.querySelector('textarea');
 
-            body[textarea.name] = textarea.value;
+            this.body[textarea.name] = textarea.value;
             target.reset();
-            await postCard(body);
+
+            if (this.form.classList.contains('post-form')) {
+                await postCard(this.body);
+            } else {
+                const data = await updateCard(this.id, this.body);
+                this.form.classList.add('post-form');
+                this.column.remove();
+                handleProps(data);
+            }
         });
     }
 }
 
-export { ModalLogin, ModalVisits };
+class ModalEdit extends ModalVisits {
+    constructor(id, column, name, doctor, purpose, description, urgency, ...rest) {
+        super();
+        this.id = id;
+        this.column = column;
+        this.name = name;
+        this.doctor = doctor;
+        this.purpose = purpose;
+        this.description = description;
+        this.urgency = urgency;
+        this.rest = rest;
+    }
+
+    completeData() {
+        this.title.innerText = 'Редагування запису';
+        this.submitBtn.innerText = 'Зберегти зміни';
+        this.form.querySelector('#name').value = this.name;
+        this.form.querySelector('#doctor').value = this.doctor;
+        this.form.querySelector('#purpose').value = this.purpose;
+        this.form.querySelector('#description').value = this.description;
+        this.form.querySelector('#urgency').value = this.urgency;
+
+        if (this.doctor == 'cardiologist') {
+            new CardiologistVisit().createFields();
+            
+            this.form.querySelectorAll('#cardiologist-fields input').forEach((item, i) => {
+                item.value = this.rest[i];
+            });
+        } else if (this.doctor == 'dentist') {
+            new DentistVisit().createFields();
+
+            this.rest.forEach(item => {
+                if (item) {
+                    this.form.querySelector('#last-visit').value = item;
+                }
+            });
+        } else {
+            new TherapistVisit().createFields();
+
+            this.rest.forEach(item => {
+                if (item) {
+                    this.form.querySelector('#age-therapist').value = item;
+                }
+            });
+        }
+    }
+
+    onChange() {
+        this.form.addEventListener('change', async (e) => {
+            const target = e.target;
+
+            this.body[target.name] = target.value;
+        });
+    }
+
+    render() {
+        super.render();
+        this.completeData();
+        this.onChange();
+    }
+}
+
+export { ModalLogin, ModalVisits, ModalEdit };
