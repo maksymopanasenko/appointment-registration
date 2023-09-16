@@ -1,6 +1,5 @@
 import {ModalLogin, ModalVisits} from "../classes/modal.js";
 import logIn from "./logIn.js";
-import filterCards from "./filter.js";
 
 function openModal(btn, filter) {
     btn.addEventListener('click', async () => {
@@ -13,7 +12,6 @@ function openModal(btn, filter) {
             new ModalLogin().render();
 
             await logIn(btn, filter);
-            filterCards(filter.value.toLowerCase(), document.getElementById("searchInput"), document.getElementById("statusSelect").value, document.getElementById("urgencySelect").value);
         }
     });
 }

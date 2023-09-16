@@ -1,10 +1,3 @@
-document.getElementById("filterForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    const urgencySelect = document.getElementById("urgencySelect").value;
-
-    filterCards(searchInput, urgencySelect);
-});
 function filterCards(searchInput, urgencySelect) {
     const cards = document.querySelectorAll(".col-sm-6");
 

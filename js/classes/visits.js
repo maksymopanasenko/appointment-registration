@@ -13,7 +13,7 @@ class Visit {
         this.status = status;
         this.body = {};
         this.fields = document.querySelector('.additional-fields');
-        this.column = document.createElement('div');
+        this.column = document.createElement('li');
         this.card = document.createElement('div');
         this.visible = document.createElement('div');
         this.hidden = document.createElement('div');
@@ -88,7 +88,6 @@ class Visit {
         this.checkBox.addEventListener('change', async () => {
             this.body.status = !this.status;
             this.status = !this.status;
-            console.log(this.body);
             await updateCard(this.id, this.body);
         });
     }
@@ -152,7 +151,7 @@ class CardiologistVisit extends Visit {
                     <input type="text" id="heart-disease" class="form-control" name="disease" placeholder="Перенесені ССЗ" required>
                     <label for="age-cardiologist" class="input-group-text fw-bold">Вік:</label>
                     <input type="text" id="age-cardiologist" class="form-control" name="age" placeholder="Вік" required>
-                </div>editCard
+                </div>
             </div>
         `;
     }
