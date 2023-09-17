@@ -149,8 +149,8 @@ class CardiologistVisit extends Visit {
                 <div class="input-group input-group-sm">
                     <label for="heart-disease" class="input-group-text fw-bold">Перенесені ССЗ:</label>
                     <input type="text" id="heart-disease" class="form-control" name="disease" placeholder="Перенесені ССЗ" required>
-                    <label for="age-cardiologist" class="input-group-text fw-bold">Вік:</label>
-                    <input type="text" id="age-cardiologist" class="form-control" name="age" placeholder="Вік" required>
+                    <label for="age" class="input-group-text fw-bold">Вік:</label>
+                    <input type="text" id="age" class="form-control" name="age" placeholder="Вік" required>
                 </div>
             </div>
         `;
@@ -212,8 +212,8 @@ class TherapistVisit extends Visit {
     createFields() {
         this.fields.innerHTML = `
             <div id="therapist-fields" class="my-2 text-start">
-                <label for="age-therapist" class="form-label fw-bold">Вік:</label>
-                <input type="text" id="age-therapist" class="form-control" name="age" placeholder="Повних років" required>
+                <label for="age" class="form-label fw-bold">Вік:</label>
+                <input type="text" id="age" class="form-control" name="age" placeholder="Повних років" required>
             </div>
         `;
     }
