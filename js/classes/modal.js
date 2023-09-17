@@ -47,11 +47,11 @@ class ModalLogin extends Modal {
         this.content.innerHTML = `
             <form id="formAuthorization" autocomplete="off" class="bg-light">
                 <h1 class="px-3 py-1">Вхід в систему</h1>
-                <div class="mb-3 px-3">
+                <div class="mb-3 px-3 text-start">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required autocomplete="off" aria-describedby="emailHelp">
                 </div>
-                <div class="mb-3 px-3">
+                <div class="mb-3 px-3 text-start">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Your password" required autocomplete="off">
                 </div>
@@ -143,7 +143,6 @@ class ModalVisits extends Modal {
             const target = e.target;
 
             target.querySelectorAll('input').forEach(input => {
-                // console.log(input);
                 this.body[input.name] = input.value;
             });
             target.querySelectorAll('select').forEach(select => {
@@ -154,15 +153,12 @@ class ModalVisits extends Modal {
             this.body[textarea.name] = textarea.value;
 
             this.body.status = this.status;
-            console.log(this.status);
             target.reset();
 
             if (this.form.classList.contains('post-form')) {
                 this.body.status = false;
-                console.log(this.body);
                 await postCard(this.body);
             } else {
-                console.log(this.body);
                 const data = await updateCard(this.id, this.body);
                 this.form.classList.add('post-form');
                 document.querySelector('.modal').remove();
