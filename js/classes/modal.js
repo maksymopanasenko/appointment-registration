@@ -1,6 +1,7 @@
 import postCard from "../api/postCards.js";
 import updateCard from "../api/updateCard.js";
 import { handleProps } from "../functions/handleCardProps.js";
+import { isAgeValid } from "../functions/validation.js";
 import { TherapistVisit, DentistVisit, CardiologistVisit } from "./visits.js";
 
 class Modal {
@@ -141,29 +142,42 @@ class ModalVisits extends Modal {
         this.form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const target = e.target;
+            let error = false;
 
             target.querySelectorAll('input').forEach(input => {
+                if (input.id == "age") {
+                    error = isAgeValid(input);
+                };
+
                 this.body[input.name] = input.value;
             });
+
             target.querySelectorAll('select').forEach(select => {
                 this.body[select.name] = select.value;
             });
+
             const textarea = target.querySelector('textarea');
 
             this.body[textarea.name] = textarea.value;
 
             this.body.status = this.status;
-            target.reset();
 
             if (this.form.classList.contains('post-form')) {
+                
                 this.body.status = false;
-                await postCard(this.body);
+                if (!error) {
+                    target.reset();
+                    await postCard(this.body);
+                }
             } else {
-                const data = await updateCard(this.id, this.body);
-                this.form.classList.add('post-form');
-                document.querySelector('.modal').remove();
-                this.column.remove();
-                handleProps(data);
+                if (!error) {
+                    target.reset();                 
+                    const data = await updateCard(this.id, this.body);
+                    this.form.classList.add('post-form');
+                    document.querySelector('.modal').remove();
+                    this.column.remove();
+                    handleProps(data);
+                }
             }
         });
     }
@@ -211,7 +225,7 @@ class ModalEdit extends ModalVisits {
 
             this.rest.forEach(item => {
                 if (item) {
-                    this.form.querySelector('#age-therapist').value = item;
+                    this.form.querySelector('#age').value = item;
                 }
             });
         }
