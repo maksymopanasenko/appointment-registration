@@ -1,15 +1,10 @@
-function isAgeValid(input) {
+function validateInput(input, minValue, maxValue, errorMessage) {
     if (!input.value || !Number.isInteger(+input.value)) {
-        console.log(input.value);
         input.value = "Введіть числове значення";
         input.style.border = '1px solid red';
         return true;
-    } else if (input.value < 5) {
-        input.value = "Діти лише від 5 років";
-        input.style.border = '1px solid red';
-        return true;
-    } else if (input.value > 100) {
-        input.value = "Обмеження для вводу - 100 років";
+    } else if (input.value < minValue || input.value > maxValue) {
+        input.value = errorMessage;
         input.style.border = '1px solid red';
         return true;
     } else {
@@ -18,4 +13,17 @@ function isAgeValid(input) {
     }
 }
 
-export {isAgeValid};
+function isAgeValid(input) {
+    return validateInput(input, 5, 100, "Тільки пацієнти у віці 5-100 років");
+}
+
+function isPressureValid(input) {
+    return validateInput(input, 50, 160, "Введіть значення в межах 50-160");
+}
+
+function isIndexValid(input) {
+    return validateInput(input, 10, 50, "Введіть значення в межах 10-50");
+}
+
+
+export {isAgeValid, isPressureValid, isIndexValid};
