@@ -7,11 +7,10 @@ async function deleteCards(id){
             }
         })
         const result = await response.text()
-
         if(response.status !== 200) {
             throw new Error(result);
         } else {
-            return result, location.reload();
+            return result;
         }
     }catch (error) {
         console.log('Error:', error.message);

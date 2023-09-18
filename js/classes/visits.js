@@ -66,7 +66,7 @@ class Visit {
 
         this.card.append(this.visible, this.hidden, this.checkHolder, this.btnContent);
         this.column.append(this.card);
-        
+
         this.showMore();
         this.editCard();
         this.changeStatus();
@@ -74,8 +74,9 @@ class Visit {
 
     deleteCards() {
         this.btnClose.addEventListener('click', async () => {
-            return await deleteCards(this.id);
-        });
+            await deleteCards(this.id)
+            this.btnClose.parentElement.offsetParent.parentElement.remove()
+        })
     }
 
     changeStatus() {
@@ -98,7 +99,7 @@ class Visit {
             target.classList.toggle('hide');
             target.classList.toggle('btn-warning');
             this.hidden.classList.toggle('d-none');
-            
+
             const card = target.closest('.card');
             const patientTitle = card.querySelector('.card-title.patient span');
 
@@ -115,7 +116,7 @@ class Visit {
     editCard() {
         this.btnEdit.addEventListener('click', () => {
             new ModalEdit(this.id, this.column, this.name, this.doctor, this.purpose, this.description, this.urgency, this.status, this.pressure, this.bmi, this.disease, this.age, this.lastVisit).render();
-        
+
             document.querySelector('.popup').classList.remove('post-form');
         });
     }
@@ -196,7 +197,7 @@ class DentistVisit extends Visit {
             <p class="card-text fs-5">Last Visit: <span class="text-secondary">${this.lastVisit}</span></p>
         `);
     }
-    
+
     changeStatus() {
         super.changeStatus();
         this.body.lastVisit = this.lastVisit;
@@ -208,7 +209,7 @@ class TherapistVisit extends Visit {
         super(id, doctor, purpose, description, urgency, name, status);
         this.age = age;
     }
-        
+
     createFields() {
         this.fields.innerHTML = `
             <div id="therapist-fields" class="my-2 text-start">
