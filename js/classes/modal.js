@@ -1,7 +1,7 @@
 import postCard from "../api/postCards.js";
 import updateCard from "../api/updateCard.js";
 import { handleProps } from "../functions/handleCardProps.js";
-import { isAgeValid } from "../functions/validation.js";
+import { isAgeValid, isIndexValid, isPressureValid } from "../functions/validation.js";
 import { TherapistVisit, DentistVisit, CardiologistVisit } from "./visits.js";
 
 class Modal {
@@ -145,9 +145,18 @@ class ModalVisits extends Modal {
             let error = false;
 
             target.querySelectorAll('input').forEach(input => {
-                if (input.id == "age") {
-                    error = isAgeValid(input);
+
+                if (input.id == "blood-pressure") {
+                    error = isPressureValid(input);
                 };
+
+                if (input.id == "bmi") {
+                    !error ? error = isIndexValid(input) : null;
+                };
+
+                if (input.id == "age") {
+                    !error ? error = isAgeValid(input) : null;
+                }
 
                 this.body[input.name] = input.value;
             });
