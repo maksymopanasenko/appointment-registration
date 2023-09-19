@@ -17,9 +17,10 @@ if (localStorage.getItem('token')) {
     document.getElementById("filterForm").addEventListener("submit", function (e) {
         e.preventDefault();
         const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const statusSelect = document.getElementById("statusSelect").value;
         const urgencySelect = document.getElementById("urgencySelect").value;
 
-        filterCards(searchInput, urgencySelect);
+        filterCards(searchInput, statusSelect, urgencySelect);
     });
 }
 
