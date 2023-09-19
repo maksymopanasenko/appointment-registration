@@ -9,7 +9,7 @@ const filter = document.querySelector('#filter'),
 
 
 if (localStorage.getItem('token')) {
-    btnlogIn.innerText = 'Створити візит';
+    btnlogIn.innerText = 'Create a visit';
     btnlogIn.classList.add('create-btn');
     
     await initialRender();
