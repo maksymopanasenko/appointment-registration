@@ -142,16 +142,16 @@ class CardiologistVisit extends Visit {
         this.fields.innerHTML = `
             <div id="cardiologist-fields" class="my-2">
                 <div class="input-group input-group-sm mb-2">
-                    <label for="blood-pressure" class="input-group-text fw-bold">Тиск:</label>
-                    <input type="text" id="blood-pressure" class="form-control" name="pressure" placeholder="Звичайний тиск" required>
-                    <label for="bmi" class="input-group-text fw-bold">Індекс маси тіла:</label>
-                    <input type="text" id="bmi" name="bmi" class="form-control" placeholder="Індекс маси тіла" required>
+                    <label for="blood-pressure" class="input-group-text fw-bold">Blood pressure:</label>
+                    <input type="text" id="blood-pressure" class="form-control" name="pressure" required>
+                    <label for="bmi" class="input-group-text fw-bold">Body mass index:</label>
+                    <input type="text" id="bmi" name="bmi" class="form-control" required>
                 </div>
                 <div class="input-group input-group-sm">
-                    <label for="heart-disease" class="input-group-text fw-bold">Перенесені ССЗ:</label>
-                    <input type="text" id="heart-disease" class="form-control" name="disease" placeholder="Перенесені ССЗ" required>
-                    <label for="age" class="input-group-text fw-bold">Вік:</label>
-                    <input type="text" id="age" class="form-control" name="age" placeholder="Вік" required>
+                    <label for="heart-disease" class="input-group-text fw-bold">Cardiovascular diseases:</label>
+                    <input type="text" id="heart-disease" class="form-control" name="disease" required>
+                    <label for="age" class="input-group-text fw-bold">Age:</label>
+                    <input type="text" id="age" class="form-control" name="age" required>
                 </div>
             </div>
         `;
@@ -185,8 +185,8 @@ class DentistVisit extends Visit {
     createFields() {
         this.fields.innerHTML = `
             <div id="dentist-fields" class="d-flex my-2">
-                <label for="last-visit" class="form-label text-start fw-bold">Дата останнього відвідування:</label>
-                <input type="date" id="last-visit" class="form-control" name="lastVisit" placeholder="Дата останнього відвідування" required>
+                <label for="last-visit" class="form-label text-start fw-bold">Date of last visit:</label>
+                <input type="date" id="last-visit" class="form-control" name="lastVisit" required>
             </div>
         `;
     }
@@ -213,8 +213,8 @@ class TherapistVisit extends Visit {
     createFields() {
         this.fields.innerHTML = `
             <div id="therapist-fields" class="my-2 text-start">
-                <label for="age" class="form-label fw-bold">Вік:</label>
-                <input type="text" id="age" class="form-control" name="age" placeholder="Повних років" required>
+                <label for="age" class="form-label fw-bold">Age:</label>
+                <input type="text" id="age" class="form-control" name="age" required>
             </div>
         `;
     }
