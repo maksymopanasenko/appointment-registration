@@ -1,7 +1,7 @@
 import {ModalLogin, ModalVisits} from "../classes/modal.js";
 import logIn from "./logIn.js";
 
-function openModal(btn, filter) {
+function openModal(btn) {
     btn.addEventListener('click', async () => {
         const modal = document.querySelector('.modal');
         
@@ -11,7 +11,7 @@ function openModal(btn, filter) {
         } else {
             new ModalLogin().render();
 
-            await logIn(btn, filter);
+            await logIn(btn);
         }
     });
 }

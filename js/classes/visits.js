@@ -76,6 +76,9 @@ class Visit {
         this.btnClose.addEventListener('click', async () => {
             await deleteCards(this.id)
             this.btnClose.parentElement.offsetParent.parentElement.remove()
+            if (document.querySelector('#root').children.length === 0) {
+                document.getElementById('no-item').classList.remove('d-none');
+            }
         })
     }
 

@@ -4,23 +4,20 @@ import openModal from "./functions/openModal.js";
 import filterCards from "./functions/filter.js";
 
 
-const filter = document.querySelector('#filter'),
-      btnlogIn = document.querySelector('#logIn');
+const btnlogIn = document.querySelector('#logIn');
 
+document.getElementById("filterForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
+    filterCards();
+});
 if (localStorage.getItem('token')) {
     btnlogIn.innerText = 'Create a visit';
     btnlogIn.classList.add('create-btn');
-    
-    await initialRender();
-    
-    document.getElementById("filterForm").addEventListener("submit", function (e) {
-        e.preventDefault();
 
-        filterCards();
-    });
+    await initialRender();
 }
 
 draggAndDropp('#root');
 
-openModal(btnlogIn, filter);
+openModal(btnlogIn);
