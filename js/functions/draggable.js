@@ -1,6 +1,6 @@
 function draggAndDropp(selector) {
     $(selector).sortable({
-        containment: "window",
+        containment: "document",
         helper: "clone",
         cursor: "grab",
         tolerance: 'pointer'

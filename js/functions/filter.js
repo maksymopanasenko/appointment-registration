@@ -8,12 +8,12 @@ function filterCards() {
     let counter = 0;
 
     cards.forEach(card => {
-        const doctorElement = card.querySelector("#doctor");
-        const nameElement = card.querySelector("#name");
-        const purposeElement = card.querySelector("#reason");
-        const descriptionElement = card.querySelector("#description");
+        const doctorElement = card.querySelector("[data-prop=doctor]");
+        const nameElement = card.querySelector("[data-prop=name]");
+        const purposeElement = card.querySelector("[data-prop=reason]");
+        const descriptionElement = card.querySelector("[data-prop=description]");
         const statusElement = card.querySelector(".check-box");
-        const urgencyElement = card.querySelector("#urgency");
+        const urgencyElement = card.querySelector("[data-prop=urgency]");
 
         const doctor = doctorElement ? doctorElement.textContent.toLowerCase() : "";
         const name = nameElement ? nameElement.textContent.toLowerCase() : "";
