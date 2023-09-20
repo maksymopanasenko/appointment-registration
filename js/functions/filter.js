@@ -1,5 +1,11 @@
-function filterCards(searchInput, statusSelect, urgencySelect) {
+function filterCards() {
     const cards = document.querySelectorAll(".col-sm-6");
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
+    const statusSelect = document.getElementById("statusSelect").value;
+    const urgencySelect = document.getElementById("urgencySelect").value;
+    const text = document.getElementById('no-item');
+
+    let counter = 0;
 
     cards.forEach(card => {
         const doctorElement = card.querySelector("#doctor");
@@ -36,8 +42,18 @@ function filterCards(searchInput, statusSelect, urgencySelect) {
             card.style.display = "block";
         } else {
             card.style.display = "none";
+            counter++;
         }
     });
+
+    if (counter == cards.length) {
+        text.innerText = 'No records found';
+        text.classList.remove('d-none');
+    } else {
+        counter = 0;
+        text.classList.add('d-none');
+        text.innerText = 'No items have been added';
+    }
 }
 
 export default filterCards;

@@ -23,7 +23,7 @@ async function logIn(btn, filter) {
 
             filter.classList.remove('d-none')
             filter.classList.add('d-block')
-            btn.innerText = 'Створити візит';
+            btn.innerText = 'Create a visit';
             btn.classList.add('create-btn');
             document.querySelector('.modal').remove();
 

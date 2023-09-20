@@ -9,18 +9,15 @@ const filter = document.querySelector('#filter'),
 
 
 if (localStorage.getItem('token')) {
-    btnlogIn.innerText = 'Створити візит';
+    btnlogIn.innerText = 'Create a visit';
     btnlogIn.classList.add('create-btn');
     
     await initialRender();
     
     document.getElementById("filterForm").addEventListener("submit", function (e) {
         e.preventDefault();
-        const searchInput = document.getElementById("searchInput").value.toLowerCase();
-        const statusSelect = document.getElementById("statusSelect").value;
-        const urgencySelect = document.getElementById("urgencySelect").value;
 
-        filterCards(searchInput, statusSelect, urgencySelect);
+        filterCards();
     });
 }
 

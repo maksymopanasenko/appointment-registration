@@ -1,7 +1,7 @@
 import postCard from "../api/postCards.js";
 import updateCard from "../api/updateCard.js";
 import { handleProps } from "../functions/handleCardProps.js";
-import { isAgeValid, isIndexValid, isPressureValid } from "../functions/validation.js";
+import { isAgeValid, isIndexValid, isPressureValid, validateDate } from "../functions/validation.js";
 import { TherapistVisit, DentistVisit, CardiologistVisit } from "./visits.js";
 
 class Modal {
@@ -14,7 +14,7 @@ class Modal {
 
     createElement() {
         this.modal.classList.add('modal', 'fade', 'show', 'd-block', 'd-flex', 'justify-content-center', 'align-items-center');
-        this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light', 'w-50');
+        this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light', 'w-75', 'w-md-50');
         this.content.classList.add('modal-content', 'text-center', 'border-0');
         this.dialog.style.pointerEvents = 'all';
         this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-2');
@@ -47,7 +47,7 @@ class ModalLogin extends Modal {
         super.createElement();
         this.content.innerHTML = `
             <form id="formAuthorization" autocomplete="off" class="bg-light">
-                <h1 class="px-3 py-1">Вхід в систему</h1>
+                <h1 class="px-3 py-1">Log in to the system</h1>
                 <div class="mb-3 px-3 text-start">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required autocomplete="off" aria-describedby="emailHelp">
@@ -56,7 +56,7 @@ class ModalLogin extends Modal {
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Your password" required autocomplete="off">
                 </div>
-                <button type="submit" class="btn btn-primary d-grid mb-2 mx-auto">Ввійти</button>
+                <button type="submit" class="btn btn-primary d-grid mb-2 mx-auto">Log in</button>
             </form>
         `;
         this.dialog.prepend(this.content);
@@ -71,6 +71,7 @@ class ModalVisits extends Modal {
         this.select = document.createElement('select');
         this.form = document.createElement('form');
         this.title = document.createElement('h2');
+        this.errorMsg = document.createElement('p');
         this.submitBtn = document.createElement('button');
     }
 
@@ -81,42 +82,44 @@ class ModalVisits extends Modal {
         this.select.setAttribute('id', 'doctor');
         this.select.className = 'form-select';
         this.select.innerHTML = `
-            <option value="" selected disabled>Оберіть лікаря</option>
-            <option value="cardiologist">Кардіолог</option>
-            <option value="dentist">Стоматолог</option>
-            <option value="therapist">Терапевт</option>
+            <option value="" selected disabled>Choose a doctor</option>
+            <option value="cardiologist">Cardiologist</option>
+            <option value="dentist">Dentist</option>
+            <option value="therapist">Therapist</option>
         `;
 
         this.label.className = "form-label d-block text-start fw-bold";
-        this.label.innerText = 'Лікар:';
+        this.label.innerText = 'Doctor:';
         this.submitBtn.className = 'btn btn-primary mt-2';
-        this.submitBtn.innerText = 'Створити';
+        this.submitBtn.innerText = 'Create';
 
         this.form.className = 'popup post-form';
         this.form.innerHTML = `
             <div id="common-fields" class="d-flex flex-column gap-1">
                 <div class="additional-fields"></div>
 
-                <label class="form-label text-start fw-bold">Мета візиту:</label>
-                <input type="text" id="purpose" class="form-control" name="purpose" placeholder="Мета візиту" required>
-                <label class="form-label text-start fw-bold">Короткий опис візиту:</label>
-                <textarea id="description" class="form-control" row="2" name="description" placeholder="Короткий опис візиту"></textarea>
-                <label class="form-label text-start fw-bold">Терміновість:</label>
+                <label class="form-label text-start fw-bold">Reason:</label>
+                <input type="text" id="purpose" class="form-control" name="purpose" placeholder="The reason of the visit" required>
+                <label class="form-label text-start fw-bold">Brief description:</label>
+                <textarea id="description" class="form-control" row="2" name="description" placeholder="Brief description of the visit"></textarea>
+                <label class="form-label text-start fw-bold">Urgency:</label>
                 <select id="urgency" class='form-select' name="urgency" required>
-                    <option value="" selected disabled>Оберіть терміновість</option>
-                    <option value="regular">Звичайна</option>
-                    <option value="priority">Пріоритетна</option>
-                    <option value="urgent">Невідкладна</option>
+                    <option value="" selected disabled>Select the urgency</option>
+                    <option value="regular">Regular</option>
+                    <option value="priority">Priority</option>
+                    <option value="urgent">Urgent</option>
                 </select>
-                <label class="form-label text-start fw-bold">Name, surname:</label>
-                <input type="text" id="name" class="form-control" name="name" placeholder="ПІБ" required>
+                <label class="form-label text-start fw-bold">Patient:</label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="Name and surname" required>
             </div>
         `;
-        this.title.innerText = 'Запис на прийом до лікаря';
+        this.title.innerText = 'Make an appointment';
         this.title.className = 'modal-title mb-3';
 
+        this.errorMsg.className = 'd-none text-danger my-2';
+
         this.form.prepend(this.title, this.label, this.select);
-        this.form.append(this.submitBtn);
+        this.form.append(this.errorMsg, this.submitBtn);
 
         this.content.append(this.form);
         this.dialog.prepend(this.content);
@@ -147,15 +150,19 @@ class ModalVisits extends Modal {
             target.querySelectorAll('input').forEach(input => {
 
                 if (input.id == "blood-pressure") {
-                    error = isPressureValid(input);
+                    error = isPressureValid(input, this.errorMsg);
                 };
 
                 if (input.id == "bmi") {
-                    !error ? error = isIndexValid(input) : null;
+                    !error ? error = isIndexValid(input, this.errorMsg) : null;
                 };
 
                 if (input.id == "age") {
-                    !error ? error = isAgeValid(input) : null;
+                    !error ? error = isAgeValid(input, this.errorMsg) : null;
+                }
+
+                if (input.id == "last-visit") {
+                    !error ? error = validateDate(input, this.errorMsg) : null;
                 }
 
                 this.body[input.name] = input.value;
