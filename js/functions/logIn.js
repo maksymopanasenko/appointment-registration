@@ -3,7 +3,7 @@ import initialRender from "./initialRender.js";
 
 const LOGIN_URL = "https://ajax.test-danit.com/api/v2/cards/login";
 
-async function logIn(btn, filter) {
+async function logIn(btn) {
     const logInForm = document.querySelector('#formAuthorization');
 
     logInForm.addEventListener('submit', async (e) => {
@@ -20,9 +20,7 @@ async function logIn(btn, filter) {
 
         if (token) {
             localStorage.setItem('token', token);
-
-            filter.classList.remove('d-none')
-            filter.classList.add('d-block')
+            
             btn.innerText = 'Create a visit';
             btn.classList.add('create-btn');
             document.querySelector('.modal').remove();

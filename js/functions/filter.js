@@ -45,7 +45,7 @@ function filterCards() {
             counter++;
         }
     });
-
+    if (cards.length === 0) return;
     if (counter == cards.length) {
         text.innerText = 'No records found';
         text.classList.remove('d-none');
