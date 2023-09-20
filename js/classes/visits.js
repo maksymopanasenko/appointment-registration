@@ -33,8 +33,8 @@ class Visit {
 
         this.visible.innerHTML = `
             <div>
-                <h5 id="doctor" class="card-title">Doctor: ${this.doctor}</h5>
-                <h5 id="name" class="card-title patient">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
+                <h5 class="card-title" data-prop="doctor">Doctor: ${this.doctor}</h5>
+                <h5 class="card-title patient" data-prop="name">Patient: <span>${this.name.length > 20 ? this.name.slice(0, 19) + '...' : this.name}</span></h5>
             </div>
         `;
 
@@ -43,13 +43,14 @@ class Visit {
         this.btnContent.className = "btn btn-secondary m-2";
         this.btnContent.innerText = 'Show more';
         this.btnEdit.className = "btn btn-primary";
-        this.btnEdit.innerHTML = '<img src="icons/pencil.png" alt="edit" width="15px">';
+        this.btnEdit.innerHTML = '<img src="icons/pen.png" alt="edit" width="15px">';
         this.btnClose.innerText = 'x';
         this.btnClose.className = "btn btn-danger";
 
         this.btns.append(this.btnClose, this.btnEdit);
 
         this.checkBox.setAttribute('type', 'checkbox');
+        this.checkBox.setAttribute('name', 'checkbox');
         this.checkBox.classList.add('check-box');
         this.status ? this.checkBox.setAttribute('checked', '') : null;
 
@@ -59,9 +60,9 @@ class Visit {
 
         this.visible.append(this.btns);
         this.hidden.innerHTML = `
-            <p id="reason" class="card-text fs-5">Reason: <span class="text-secondary">${this.purpose}</span></p>
-            <p id="description" class="card-text fs-5">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
-            <p id="urgency" class="card-text fs-5">Urgency: <span class="text-secondary">${this.urgency}</span></p>
+            <p class="card-text fs-5" data-prop="reason">Reason: <span class="text-secondary">${this.purpose}</span></p>
+            <p class="card-text fs-5" data-prop="description">Description: <span class="text-secondary">${this.description ? this.description : 'N/A'}</span></p>
+            <p class="card-text fs-5" data-prop="urgency">Urgency: <span class="text-secondary">${this.urgency}</span></p>
         `;
 
         this.card.append(this.visible, this.hidden, this.checkHolder, this.btnContent);
@@ -74,12 +75,22 @@ class Visit {
 
     deleteCards() {
         this.btnClose.addEventListener('click', async () => {
-            await deleteCards(this.id)
-            this.btnClose.parentElement.offsetParent.parentElement.remove()
-            if (document.querySelector('#root').children.length === 0) {
+            await deleteCards(this.id);
+            this.btnClose.parentElement.offsetParent.parentElement.remove();
+            const cards = document.querySelector('#root').children;
+            const result = Array.from(cards).filter(item => item.style.display !== 'none');
+            const text = document.getElementById('no-item');
+
+            if (cards.length === 0) {
+                text.innerText = 'No items have been added';
+                document.getElementById('no-item').classList.remove('d-none');
+                return;
+            }
+            if (result.length === 0) {
+                text.innerText = 'No records found';
                 document.getElementById('no-item').classList.remove('d-none');
             }
-        })
+        });
     }
 
     changeStatus() {

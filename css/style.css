@@ -6,7 +6,24 @@ body {
     background-size: cover;
     height: 100vh;
 }
-.scroll-y {
-    height:690px;
-    overflow-y: scroll;
-  }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4f4f4f;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #201f1f;
+}
+  
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+  
+::-webkit-scrollbar-button {
+    display: none;
+}
