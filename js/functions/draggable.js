@@ -3,7 +3,11 @@ function draggAndDropp(selector) {
         containment: "document",
         helper: "clone",
         cursor: "grab",
-        tolerance: 'pointer'
+        tolerance: 'pointer',
+        placeholder: "placeholder",
+        start: (event, ui) => {
+            ui.placeholder.height(ui.item.height()-20);
+        } 
     });
 }
 
