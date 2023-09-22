@@ -27,3 +27,14 @@ body {
 ::-webkit-scrollbar-button {
     display: none;
 }
+
+.placeholder {
+    background-color: #333333;
+    max-width: 50%;
+}
+
+@media (min-width: 1200px){
+    .placeholder {
+        max-width: 33.3%;
+    }
+}
