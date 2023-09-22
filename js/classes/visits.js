@@ -198,8 +198,8 @@ class DentistVisit extends Visit {
 
     createFields() {
         this.fields.innerHTML = `
-            <div id="dentist-fields" class="d-flex my-2">
-                <label for="last-visit" class="form-label text-start fw-bold">Date of last visit:</label>
+            <div id="dentist-fields" class="d-flex align-items-center my-2">
+                <label for="last-visit" class="form-label text-start fw-bold m-0 w-75">Date of last visit:</label>
                 <input type="date" id="last-visit" class="form-control" name="lastVisit" required>
             </div>
         `;
