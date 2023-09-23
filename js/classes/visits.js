@@ -26,7 +26,7 @@ class Visit {
     }
 
     createCard() {
-        this.card.classList.add('card', 'mb-3', 'text-dark', 'd-flex');
+        this.card.classList.add('card', 'my-2', 'text-dark', 'd-flex');
         this.column.className = 'col-sm-6 col-xl-4';
         this.visible.className = 'card-body d-flex justify-content-between align-items-start gap-2 pb-0';
         this.hidden.className = 'card-body pt-0 d-none';

@@ -14,11 +14,11 @@ class Modal {
 
     createElement() {
         this.modal.classList.add('modal', 'fade', 'show', 'd-block', 'd-flex', 'justify-content-center', 'align-items-center');
-        this.dialog.classList.add('modal-dialog', 'position-relative', 'p-4', 'bg-light', 'w-75', 'w-md-50');
+        this.modal.style.backgroundColor = '#00000070';
+        this.dialog.classList.add('modal-dialog', 'position-relative', 'bg-white', 'w-100',  'w-sm-75', 'w-md-50', 'overflow-scroll');
         this.content.classList.add('modal-content', 'text-center', 'border-0');
-        this.dialog.style.pointerEvents = 'all';
-        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-2');
-        this.dialog.append(this.closeBtn);
+        this.closeBtn.classList.add('btn-close', 'position-absolute', 'top-0', 'end-0', 'm-1');
+        this.content.append(this.closeBtn);
         this.modal.append(this.dialog);
 
         this.closeModal();
@@ -45,8 +45,8 @@ class ModalLogin extends Modal {
 
     createElement() {
         super.createElement();
-        this.content.innerHTML = `
-            <form id="formAuthorization" autocomplete="off" class="bg-light">
+        this.content.insertAdjacentHTML('beforeend', `
+            <form id="formAuthorization" autocomplete="off" class="bg-light p-3">
                 <h1 class="px-3 py-1">Log in to the system</h1>
                 <div class="mb-3 px-3 text-start">
                     <label for="email" class="form-label">Email address</label>
@@ -58,7 +58,7 @@ class ModalLogin extends Modal {
                 </div>
                 <button type="submit" class="btn btn-primary d-grid mb-2 mx-auto">Log in</button>
             </form>
-        `;
+        `);
         this.dialog.prepend(this.content);
     }
 }
@@ -93,7 +93,7 @@ class ModalVisits extends Modal {
         this.submitBtn.className = 'btn btn-primary mt-2';
         this.submitBtn.innerText = 'Create';
 
-        this.form.className = 'popup post-form';
+        this.form.className = 'popup post-form p-4 p-sm-5';
         this.form.innerHTML = `
             <div id="common-fields" class="d-flex flex-column gap-1">
                 <div class="additional-fields"></div>
