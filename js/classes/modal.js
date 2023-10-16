@@ -50,11 +50,11 @@ class ModalLogin extends Modal {
                 <h1 class="px-3 py-1">Log in to the system</h1>
                 <div class="mb-3 px-3 text-start">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your email" required autocomplete="off" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your email" value="illustrative@example.com" required autocomplete="off" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 px-3 text-start">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Your password" required autocomplete="off">
+                    <input type="password" class="form-control" name="password" id="password" value="illustrative" placeholder="Your password" required autocomplete="off">
                 </div>
                 <button type="submit" class="btn btn-primary d-grid mb-2 mx-auto">Log in</button>
             </form>
